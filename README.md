@@ -40,6 +40,8 @@ For any inquiries, please use the button in the extension.
 
 This is an open-source project, and I would like any help possible to improve its functionality -- especially in expanding the job alert emails that can be parsed. If you are interested in working on this project, feel free to reach out to me directly or add an issue/pull request!
 
+I am working on getting JobHarvest verified through the Google Console. The application is still usable, you will 'Proceed' past Google's warnings to ensure proper use.
+
 [Click this](https://www.jaredscottcohen.com/job-harvest) to see the privacy policy for this project
 
 [Click this](https://www.jaredscottcohen.com/) to see my other projects and learn more about the creator of JobHarvest
