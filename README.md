@@ -18,11 +18,11 @@ Follow these simple steps to activate JobHarvest:
   
 2. **Preference Features**: After installation, open the extension. Make sure to view the preferences to optimize your functionality
   - **Time Between Badge Updates** - checks your Gmail periodically to determine how many Job Alert emails you have
- - **Number of Inbox Emails to Check** - Instead of checking your extremely long inbox, you can limit your search to save time and computing power
- - **Phrases to Ignore** - Filter out the words you do not want to see in your Company or Job Title
-- **Sheets Information** - Provide the Sheets URL, Sheets Tab, and Column Range so the information gets placed in the correct sheet! (Data must not have empty rows or else rows will overwrite)
-- **Combine Into One Table?** - If you want to see the data all in one table, as opposed to per email use the checkbox provided!
-- **Column Organization** - Everyone organizes their tables differently, so you should have the flexibility to choose the order you like! (It is not recommended to have spaces between data columns)
+  - **Number of Inbox Emails to Check** - Instead of checking your extremely long inbox, you can limit your search to save time and computing power
+  - **Phrases to Ignore** - Filter out the words you do not want to see in your Company or Job Title
+  - **Sheets Information** - Provide the Sheets URL, Sheets Tab, and Column Range so the information gets placed in the correct sheet! (Data must not have empty rows or else rows will overwrite)
+  - **Combine Into One Table?** - If you want to see the data all in one table, as opposed to per email use the checkbox provided!
+  - **Column Organization** - Everyone organizes their tables differently, so you should have the flexibility to choose the order you like! (It is not recommended to have spaces between data columns)
   
 3. **Search Your Email**: Click on the "Search Your Email" button to retrieve job alerts from your linked accounts on LinkedIn, Glassdoor, and Indeed.
   
