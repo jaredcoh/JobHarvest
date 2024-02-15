@@ -32,8 +32,12 @@ Follow these simple steps to activate JobHarvest:
 
 With JobHarvest, managing and organizing your job alerts has never been easier. Streamline your job search process and stay focused on finding the perfect opportunity!
 
-For any inquiries or support, please use the button in the extension. Click this link for the [Privacy Policy](https://www.jaredscottcohen.com/job-harvest)
+Happy job hunting! 🌟
+
+## Inquiries and Support
+
+For any inquiries, please use the button in the extension. Click this link for the [Privacy Policy](https://www.jaredscottcohen.com/job-harvest)
+This is an open-source project, and I would like any help possible to improve its functionality -- especially in expanding the job alert emails that can be parsed. If you are interested in working on this project, feel free to reach out to me directly or add an issue/pull request!
 
 [Click this](https://www.jaredscottcohen.com/) to see my other projects and learn more about the creator of JobHarvest
 
-Happy job hunting! 🌟
