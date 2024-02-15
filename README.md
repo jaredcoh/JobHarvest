@@ -34,10 +34,15 @@ With JobHarvest, managing and organizing your job alerts has never been easier. 
 
 Happy job hunting! 🌟
 
-## Inquiries and Support
+## Inquiries, Support, and Privacy Policy
 
-For any inquiries, please use the button in the extension. Click this link for the [Privacy Policy](https://www.jaredscottcohen.com/job-harvest)
+For any inquiries, please use the button in the extension. 
+
 This is an open-source project, and I would like any help possible to improve its functionality -- especially in expanding the job alert emails that can be parsed. If you are interested in working on this project, feel free to reach out to me directly or add an issue/pull request!
 
+[Click this](https://www.jaredscottcohen.com/job-harvest) to see the privacy policy for this project
+
 [Click this](https://www.jaredscottcohen.com/) to see my other projects and learn more about the creator of JobHarvest
+
+
 
