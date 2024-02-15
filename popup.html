@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <style type="text/css">
+    * {
+      font-size: large;
+      font-family: Inter, sans-serif;
+    }
+
+    header {
+      
+      background-color: #fff8ef; /* Light grey background color */
+      background-image: url("imgs/header-background.png");
+      background-size: cover; /* Ensure the image covers the entire header */
+      background-position: center; /* Center the background image */
+      padding: 49px; /* Add padding for spacing */
+      top: 0;
+      margin: 0; /* Reset margin */
+      position: fixed; /* Fix the header at the top */
+      width: 100%; /* Make the header span the full width */
+      z-index: 10; /* Ensure the header is above other elements */
+      border-bottom: 1px solid black;
+    }
+
+    body {
+      background-color: #fff8ef; /* Light grey background color */
+      min-width: 500px;
+    }
+
+    textarea {
+      width: 98%;
+    }
+    .checkbox-container {
+      margin-left: 20px; /* Adjust the margin as needed */
+    }
+    #search {
+      position: fixed; /* Make the button fixed */
+      top: 20px; /* Adjust the distance from the top as needed */
+      left: 50%; /* Center horizontally */
+      transform: translateX(-50%); /* Center horizontally */
+      padding: 15px 30px; /* Adjust padding as needed for a larger button */
+      border: none;
+      border-radius: 25px; /* Rounded corners */
+      background-color: #DAA520; /* Light teal background */
+      color: #fff; /* White text */
+      font-size: x-large; /* Larger font size */
+      font-weight: bold; /* Bolder font weight */
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for color change */
+    }
+
+    #search:hover {
+      background-color: #dab860; /* Dark teal on hover */
+      color: #fff; /* White text on hover */
+    }
+
+    #search:active {
+      background-color: #382b0a; /* Black when clicked */
+      color: #fff; /* White text when clicked */
+    }
+
+    #resultsContainer {
+      max-width: 100%; /* Adjust the max-width as needed */
+      word-wrap: break-word;
+    }
+    .footer {
+      background-color: #8B5A2B;
+      color: #fff;
+      padding: 5px;
+      text-align: center;
+      position: relative; /* Change position to relative */
+      margin-top: 20px; /* Add margin-top to create space between the JSON box and footer */
+      width: 100%;
+    }
+    
+
+    .footer a.button {
+      color: #fff;
+      text-decoration: none;
+      background-color: #DAA520; /* Choose your preferred button color */
+      padding: 5px 10px; /* Adjust padding for the button */
+      border-radius: 5px; /* Add rounded corners to the button */
+      border: 1px solid #fff; /* Add border to the button */
+      font-size: 12px;
+    }
+    .footer h4 {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      margin: 5px; /* Add some margin for spacing */
+      font-size: small;
+      line-height: inherit;
+    }
+    .footer-image {
+      position: absolute;
+      bottom: 10px; /* Adjust the distance from the bottom as needed */
+      right: 10px; /* Adjust the distance from the right as needed */
+      width: 60px; /* Adjust the width as needed */
+      height: auto; /* Maintain aspect ratio */
+    }
+
+    #result {
+      padding-bottom: 100px; /* Adjust the value as needed */
+    }
+
+  </style>
+</head>
+
+<header>
+  <input type="button" id="search" value="Search Your Email">
+</header>
+
+<body style="min-width:500px">
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <div id="tutorial">
+    <div>Welcome to JobHarvest, the extension that helps your job search!</div>
+    <div>This uses the job alerts from popular job boards to find you jobs</div>
+    <br>
+    <div>Steps to make it work:</div>
+    <div>1. Log into LinkedIn, Glassdoor, or Indeed</div>
+    <div>2. Setup your respective job alerts</div>
+    <div>3. Whenever a job alert email comes in, click the extension and the "search your email" button to organize the information into a formatted table</div>
+    <br>
+    <div>You can organize the columns and sort/delete the rows.</div>
+    <div>You can then copy the table to bring it into your own spreadsheet</div>
+    <div>You can also add your sheets URL and tab name to send it to the spreadsheet automatically!</div>
+    <br>
+    <div>Soon, you will be able to have the program check your email and send it to your preferred spreadsheet automatically!</div>
+    <br>
+    <div>Happy Searching!</div>
+    
+  </div>
+  <input type="checkbox" id="hideTutorial"> Hide Tutorial?
+  <br>
+  <div id="channelContents"></div>
+  
+  
+  
+  <h2>Choose Your Search Preferences</h2>
+  <div>
+    <label for="autoEmailChecksDropdown">Time Between Badge Updates:
+    <select id="autoEmailChecksDropdown">
+      <option value="5">5 minutes</option>
+      <option value="10" selected>10 minutes</option>
+      <option value="30">30 minutes</option>
+      <option value="60">1 hour</option>
+      <option value="720">12 hours</option>
+      <option value="1440">24 hours</option>
+    </select></label>
+  </div>
+
+  <div>
+    <label for="numEmails">Number of Inbox Emails to Check:
+    <select id="numEmails">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="25" selected>25</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="200">200</option>
+      <option value="500">500</option>
+    </select></label>
+  </div>
+  <div>
+    <label for="phrasesToIgnore">Phrases to Ignore (comma-seperated):
+    <input type="text" id="phrasesToIgnore" placeholder="Enter phrases to ignore"></label>
+  </div>
+
+  <div>
+    <label for="sheetsURL">Sheets URL:
+    <input type="text" id="sheetsURL" placeholder="Enter Sheets URL"></label>
+  </div>
+  
+  <div>
+    <label for="sheetsTab">Sheets Tab Name:
+    <input type="text" id="sheetsTab" placeholder="Enter Tab Name"></label>
+  </div>
+  
+  <div>
+    <label for="startColumn">Column Range (inclusive):
+    <input type="text" id="startColumn" placeholder="Start" style="width: 3em;">
+    :
+    <input type="text" id="endColumn" placeholder="End" style="width: 3em;"></label>
+  </div>
+
+  <div>
+    <input type="checkbox" id="parenthesis"> Parenthesis in Location (Not Yet)?
+  </div>
+
+  <div>
+    <input type="checkbox" id="combineJobs"> Combine Into One Table?
+  </div>
+
+  <div>
+    <label>Column 1:
+    <select id="option1">
+      <option value="none">None</option>
+      <option value="Job Title">Job Title</option>
+      <option value="Company">Company</option>
+      <option value="Location">Location</option>
+      <option value="Link">Link</option>
+      <option value="Date" selected>Date</option>
+      <option value="Source">Source</option>
+    </select></label>
+  </div>
+
+  <div>
+    <label>Column 2:
+    <select id="option2">
+      <option value="none">None</option>
+      <option value="Job Title">Job Title</option>
+      <option value="Company" selected>Company</option>
+      <option value="Location">Location</option>
+      <option value="Link">Link</option>
+      <option value="Date">Date</option>
+      <option value="Source">Source</option>
+    </select></label>
+  </div>
+
+  <div>
+    <label>Column 3:
+    <select id="option3">
+      <option value="none">None</option>
+      <option value="Job Title">Job Title</option>
+      <option value="Company">Company</option>
+      <option value="Location" selected>Location</option>
+      <option value="Link">Link</option>
+      <option value="Date">Date</option>
+      <option value="Source">Source</option>
+    </select></label>
+  </div>
+
+  <div>
+    <label>Column 4:
+    <select id="option4">
+      <option value="none">None</option>
+      <option value="Job Title">Job Title</option>
+      <option value="Company">Company</option>
+      <option value="Location" selected>Location</option>
+      <option value="Link">Link</option>
+      <option value="Date">Date</option>
+      <option value="Source">Source</option>
+    </select></label>
+  </div>
+
+  <div>
+    <label>Column 5:
+    <select id="option5">
+      <option value="none">None</option>
+      <option value="Job Title">Job Title</option>
+      <option value="Company">Company</option>
+      <option value="Location">Location</option>
+      <option value="Link">Link</option>
+      <option value="Date" selected>Date</option>
+      <option value="Source">Source</option>
+    </select></label>
+  </div>
+  <div>
+    <label>Column 6:
+    <select id="option6">
+      <option value="none">None</option>
+      <option value="Job Title">Job Title</option>
+      <option value="Company">Company</option>
+      <option value="Location">Location</option>
+      <option value="Link">Link</option>
+      <option value="Date">Date</option>
+      <option value="Source" selected>Source</option>
+    </select></label>
+  </div>
+  <h2>Email Search Results</h2>
+  <div id="resultsContainer"></div>
+  
+  <h2 id="jsonHeader">JSON format</h2>
+  <textarea id="result" cols="30" rows="10"></textarea><br>
+  <br>
+  <br>
+  <div class="footer">
+    <h3><a href="mailto:jaredscohen2000@gmail.com" class="button" target="_blank">Reach out to me here for questions, bugs, or ideas for future improvements!</a></h3>
+    <a href="https://github.com/jaredcoh/JobHarvest" class="button" target="_blank">GitHub Link</a>
+    <a href="https://www.jaredscottcohen.com/job-harvest" class="button" target="_blank">Privacy Policy</a>
+    <br>
+    <br>
+    <br>
+    <h4><a href=https://www.jaredscottcohen.com></a>Jared Cohen | www.jaredscottcohen.com </h4>
+    <img src="/imgs/JobHarvest.png" class="footer-image" alt="Footer Image">
+  
+  </div>
+  <script src="channelContents.js"></script>
+  <script src="linkedinParse.js"></script>
+  <script src="indeedParse.js"></script>
+  <script src="ihireEngineeringParse.js"></script>
+  <script src="dictParse.js"></script>
+  <script src="glassdoorParse.js"></script>
+  <script src="tableDragAndDrop.js"></script>
+  <script src="preferences.js"></script>
+  <script src="googleSheetsIntegration.js"></script>
+  <script src="smallFunctions.js"></script>
+  <script type="module" src="background.js"></script>
+</body>
+
+</html>
