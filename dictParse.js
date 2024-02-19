@@ -27,7 +27,7 @@ function dictionaryParser(resultContainer, jobDetails) {
     const combineJobsCheckbox = document.getElementById("combineJobs");
 
     const phrasesToIgnore = document.getElementById("phrasesToIgnore").value
-    ? document.getElementById("phrasesToIgnore").value.toLowerCase().split(',').map(phrase => phrase.trim()) : [];
+    ? document.getElementById("phrasesToIgnore").value.toLowerCase().split(',').map(phrase => phrase.trim()).filter(phrase => phrase !== "") : [];
     
     // if checked... (all jobs in one big table)
     if (combineJobsCheckbox.checked) {
@@ -39,26 +39,22 @@ function dictionaryParser(resultContainer, jobDetails) {
     } else {
         //if unchecked.. (all jobs separated by email)
         jobDetails.forEach((entry, entryIndex) => {
-            if (entry.jobs.length > 0){
-                console.log(entry.jobs)
-                const headerElement = document.createElement('div');
+            const headerElement = document.createElement('div');
                 headerElement.innerHTML = `
                     <h2 style="font-size: 1.5em; margin-bottom: 0;">${toTitleCase(entry.jobSite)}</h2>
                     <p style="font-size: 1em; margin-top: 0; margin-bottom: 3px;">${entry.subject.substring(0, 50)}...</p>
                     <p style="font-size: 1em; margin-top: 0;">${convertToTimezone(entry.date)}</p>`
                 resultContainer.appendChild(headerElement);
+            if (entry.jobs.length > 0){
+                console.log(entry.jobs)
+                
+                
 
                 jobsTable = createAndPrepJobTable(colList, entry)
                 forEachEntry(entry, jobsTable, colList, resultContainer, phrasesToIgnore)
             }
             else{
-                const headerElement = document.createElement('div');
-                headerElement.innerHTML = `
-                    <h2 style="font-size: 1.5em; margin-bottom: 0;">${toTitleCase(entry.jobSite)}</h2>
-                    <p style="font-size: 1em; margin-top: 0; margin-bottom: 3px;">${entry.subject.substring(0, 50)}...</p>
-                    <p style="font-size: 1em; margin-top: 0;">${convertToTimezone(entry.date)}</p>`
-                resultContainer.appendChild(headerElement);
-                resultContainer.innerHTML = 'This entry contains a keyword but is not a job alert';
+                headerElement.innerHTML += `<p>This entry contains a keyword but is not a job alert</p>`;
             }
         });
     }
