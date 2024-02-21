@@ -226,11 +226,31 @@ function createAndPrepJobTable(colList, entry){
     if (!document.getElementById("combineJobs").checked){
         createDeleteEmailButton(topRow, entry);}
     createSendButtonForTable(topRow);
+    createOpenEmailButtonForTable(topRow, entry); 
     createCopyButtonForTable(topRow); 
+    
     const headerRow = jobsTable.insertRow();
             
     addColHeader(colList, headerRow);
     return jobsTable
+}
+
+function createOpenEmailButtonForTable(topRow, entry){
+    const openCell = topRow.insertCell(0);
+    openCell.colSpan = 1;
+    const openButton = document.createElement('button');
+    openButton.innerText = 'Open Email';
+    openButton.style.width = '100%';
+    openButton.style.fontSize = '12px';
+    openCell.appendChild(openButton);
+    console.log(entry);
+    openButton.addEventListener('click', (event) => {
+        window.open('https://mail.google.com/mail/u/0/#inbox/' + entry.threadId, '_blank');
+        openButton.innerText = 'Opening!';
+        setTimeout(() => {
+            openButton.innerText = 'Open Email';
+        }, 3000);
+    });
 }
 
 function shouldAddJob(job, phrasesToIgnore) {
@@ -244,7 +264,7 @@ function shouldAddJob(job, phrasesToIgnore) {
 function createSendButtonForTable(sendRow) {
     
     const sendCell = sendRow.insertCell(0);
-    sendCell.colSpan = 2;
+    sendCell.colSpan = 1;
     const sendToSpreadsheetButton = document.createElement('button');
     sendToSpreadsheetButton.innerText = 'Send to Sheet';
     sendToSpreadsheetButton.style.width = '100%';
@@ -483,3 +503,4 @@ function tableToCSV(htmlTable) {
     const csv = csvRows.map(row => row.join('~~')).join('\n');
     return csv;
 }
+

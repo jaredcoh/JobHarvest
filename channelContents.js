@@ -38,7 +38,9 @@ async function getEmailSubjects(apiKey, token) {
   
   if (response.ok) {
     const jsonResponse = await response.json();
+    console.log(jsonResponse)
     const messageIds = jsonResponse.messages.map(message => message.id);
+    const threadIds = jsonResponse.messages.map(message => message.threadId);
     const emailDetails = [];
 
     for (const messageId of messageIds) {
@@ -94,6 +96,7 @@ async function getEmailSubjects(apiKey, token) {
         // Create emailInfo object with job details
         const emailInfo = {
           id: messageId,
+          threadId: (jsonResponse.messages.find(msg => msg.id === messageId) || {}).threadId || null,
           from: fromHeader ? fromHeader.value : 'N/A',
           date: dateHeader ? dateHeader.value : 'N/A',
           subject: subjectHeader ? subjectHeader.value : 'N/A',

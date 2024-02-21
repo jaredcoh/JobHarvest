@@ -39,15 +39,15 @@ function dictionaryParser(resultContainer, jobDetails) {
     } else {
         //if unchecked.. (all jobs separated by email)
         jobDetails.forEach((entry, entryIndex) => {
+            console.log(entry)
             const headerElement = document.createElement('div');
                 headerElement.innerHTML = `
-                    <h2 style="font-size: 1.5em; margin-bottom: 0;">${toTitleCase(entry.jobSite)}</h2>
-                    <p style="font-size: 1em; margin-top: 0; margin-bottom: 3px;">${entry.subject.substring(0, 50)}...</p>
-                    <p style="font-size: 1em; margin-top: 0;">${convertToTimezone(entry.date)}</p>`
+                <h2 style="font-size: 1.5em; margin-bottom: 0; display: inline;">${toTitleCase(entry.jobSite)}</h2>
+                <p style="font-size: 1em; margin-top: 0; margin-bottom: 3px;">${entry.subject.substring(0, 50)}...</p>
+                <p style="font-size: 1em; margin-top: 0;">${convertToTimezone(entry.date)}</p>`;
                 resultContainer.appendChild(headerElement);
             if (entry.jobs.length > 0){
                 console.log(entry.jobs)
-                
                 
 
                 jobsTable = createAndPrepJobTable(colList, entry)
