@@ -5,6 +5,8 @@ JobHarvest is a handy Chrome extension designed to streamline your job search pr
 ## Features
 
 - **Consolidated Alerts**: JobHarvest aggregates job alerts from LinkedIn, Glassdoor, and Indeed, making it easier for you to manage them all in one place.
+
+- **Consolidated Job Board Search**: JobHarvest aggregates job postings from popular company Job Boards, making it easier to view and filter a company's postings.
   
 - **Customized Filtering**: With JobHarvest, you can apply filters to automatically hide jobs that do not align with your career path, ensuring that you only receive relevant opportunities.
   
@@ -26,13 +28,13 @@ Follow these simple steps to activate JobHarvest:
   
 2. **Preference Features**: After installation, open the extension. Make sure to view the preferences to optimize your functionality
 
-3. **Search Your Email**: Click on the "Search Your Email" button to retrieve job alerts from your linked accounts on LinkedIn, Glassdoor, and Indeed.
+3. **Search**: Click on the "Search Your Email" button to retrieve job alerts from your linked accounts on LinkedIn, Glassdoor, and Indeed OR search a connected job site to see currently available jobs.
   
 4. **Delete and Filter**: Review your job alerts and delete any unwanted listings. Apply filters to refine your search criteria according to your preferences.
   
 5. **Copy or Export**: Once you've filtered your alerts, you can either copy the selected listings to your clipboard or export them directly to your preferred spreadsheet application.
 
-With JobHarvest, managing and organizing your job alerts has never been easier. Streamline your job search process and stay focused on finding the perfect opportunity!
+With JobHarvest, managing and organizing your jobs has never been easier. Streamline your job search process and stay focused on finding the perfect opportunity!
 
 Happy job hunting! 🌟
 
