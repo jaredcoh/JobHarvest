@@ -165,6 +165,7 @@ function addData(job, jobsTable, colList, entry){
             linkElement.href = job.href;
             linkElement.innerText = 'Link';
             linkElement.target = '_blank';
+            linkElement.title = 'Click to Open';
             // Append the anchor element to the hrefCell
             hrefCell.appendChild(linkElement);
             hrefCell.style.border = '1px solid #ddd';
@@ -293,6 +294,7 @@ function createDeleteButton(row) {
     deleteButton.style.height = '30px';
     deleteButton.style.borderRadius = '50%'; // Make the button circular
     deleteButton.id = "delete"; // Set the ID for the button
+    deleteButton.title = "Delete Row";
     deleteButton.addEventListener('click', () => {
         row.remove();
     });

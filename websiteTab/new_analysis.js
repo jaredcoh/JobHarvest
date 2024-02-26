@@ -101,7 +101,7 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                             buttonCell.style.display = 'inline-block';
                             let deleteButton = document.createElement('button');
                             deleteButton.textContent = '\u2716';
-                            deleteButton.title = 'Delete';
+                            deleteButton.title = 'Delete Row';
                             deleteButton.id = "delete";
                             deleteButton.addEventListener('click', function() {
                                 // For example, you can remove the corresponding row from the table

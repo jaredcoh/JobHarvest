@@ -26,9 +26,6 @@
     "tabs",
     "scripting",
     "activeTab"],
-  "host_permissions": [
-      "<all_urls>"
-    ],
   "icons":{
     "128":"imgs/logo-128.png",
     "48":"imgs/logo-48.png",
