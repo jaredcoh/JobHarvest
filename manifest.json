@@ -6,7 +6,12 @@
   "description": "Parses your job alert emails and allows your to filter and copy for your Job Search spreadsheet",
   "action": {
     "default_title": "Click to open the JobHarvest Dashboard",
-    "default_popup": "popup.html"
+    "default_popup": "tutorialTab/data.html",
+    "default_icon": {   
+      "128":"imgs/logo-128.png",
+      "48":"imgs/logo-48.png",
+      "16":"imgs/logo-16.png"
+      }
   },
   "oauth2": {
     "client_id": "810251077453-vk7qf6j4met1ojs42uj6eh8nri9go56q.apps.googleusercontent.com",
