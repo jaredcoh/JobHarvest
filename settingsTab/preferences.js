@@ -13,7 +13,6 @@ function savePreferences() {
     const numEmails = document.getElementById("numEmails").value;
     const startColumn = document.getElementById("startColumn").value;
     const endColumn = document.getElementById("endColumn").value;
-    console.log("SAVE", column1, column2, column3, column4);
     chrome.storage.local.set({
         'numEmails':numEmails,
         'ignorePhrases': ignorePhrases,
@@ -55,7 +54,6 @@ function loadPreferences() {
         'endColumn',
     ], function (result) {
         // Mapping between preference keys and corresponding form element IDs
-        console.log(result)
         const preferencesMap = {
             'numEmails':'numEmails',
             'ignorePhrases': 'ignorePhrases',
@@ -76,8 +74,24 @@ function loadPreferences() {
         Object.keys(preferencesMap).forEach(prefKey => {
             const elementId = preferencesMap[prefKey];
             const element = document.getElementById(elementId);
+            let valueToSet = result[prefKey]; // Get the preference value
+            if (prefKey === 'numEmails' && valueToSet === undefined) {
+                valueToSet = 25; // Set default value for numEmails to 20 if not set
+            } else if (prefKey === 'startColumn' && valueToSet === undefined) {
+                valueToSet = 'A'; // Set default value for startColumn to 'A' if not set
+            } else if (prefKey === 'endColumn' && valueToSet === undefined) {
+                valueToSet = 'F'; // Set default value for endColumn to 'F' if not set
+            } else if (!valueToSet) {
+                // Set default values for other preferences if not set
+                if (prefKey === 'column1') valueToSet = 'Date';
+                else if (prefKey === 'column2') valueToSet = 'Job Title';
+                else if (prefKey === 'column3') valueToSet = 'Company';
+                else if (prefKey === 'column4') valueToSet = 'Location';
+                else if (prefKey === 'column5') valueToSet = 'Link';
+                else if (prefKey === 'column6') valueToSet = 'Source';
+            }
             if (element) {
-                element.value = result[prefKey] || '';
+                element.value = valueToSet || ''; // Set the value to element if it exists
             }
         });
 

@@ -22,15 +22,16 @@
   },
   "permissions": [
     "identity",
-    "storage"
-  ],
+    "storage",
+    "tabs",
+    "scripting",
+    "activeTab"],
+  "host_permissions": [
+      "<all_urls>"
+    ],
   "icons":{
     "128":"imgs/logo-128.png",
     "48":"imgs/logo-48.png",
     "16":"imgs/logo-16.png"
-  },
-  "background": {
-    "service_worker": "background.js",
-    "type": "module"
   }
 }

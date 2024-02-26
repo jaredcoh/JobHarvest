@@ -1,20 +1,34 @@
-// googleSheetIntegration.js
+function getSheetData(jobs){
+    chrome.storage.local.get(["sheetsURL", "sheetsTab", "startColumn", "endColumn"], function(data) {
+        // Extract constants from the retrieved data
+        const sheetsURL = data.sheetsURL;
+        const sheetsTab = data.sheetsTab;
+        const startColumn = (data.startColumn || "").toUpperCase();
+        const endColumn = (data.endColumn || "").toUpperCase();
+        
+        // Call sendToGoogleSheet with the retrieved data
+        sendToGoogleSheet(jobs, [sheetsURL, sheetsTab, startColumn, endColumn]);
+    });
+}
 
 // Function to send job information to Google Sheets
-function sendToGoogleSheet(jobs) {
-    const sheetsURL = document.getElementById("sheetsURL").value;
-    const sheetsTab = document.getElementById("sheetsTab").value;
+function sendToGoogleSheet(jobs, sheetData) {
+    console.log(sheetData, "data")
+    const sheetsURL = sheetData[0];
+    const sheetsTab = sheetData[1];
+    console.log("B", sheetsURL)
     // Check if the sheetsURL and sheetsTab are provided
     if (!sheetsURL || !sheetsTab) {
     console.error('Sheets URL and Tab Name are required');
     return;
     }
+    console.log("C", sheetsTab)
     // Construct the Google Sheets API URL
     const spreadsheetId = getSpreadsheetId(sheetsURL);
     const sheetsAPIURL = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/`;
     // Get the highest empty row in columns A-E
-    const startColumn = document.getElementById("startColumn").value.toUpperCase(); // Get start column value
-    const endColumn = document.getElementById("endColumn").value.toUpperCase(); // Get end column value
+    const startColumn = sheetData[2].toUpperCase(); // Get start column value
+    const endColumn = sheetData[3].toUpperCase(); // Get end column value
     // Convert HTML table to CSV format
     const csvData = tableToCSV(jobs);
     getHighestEmptyRow(spreadsheetId, sheetsTab, startColumn, endColumn).then(highestEmptyRow => {
@@ -37,5 +51,6 @@ function sendToGoogleSheet(jobs) {
         
         // Call the appendValuesFromCSV function
         appendValuesFromCSV(spreadsheetId, startRange, 'RAW', csvData, callback);
+
     })
 }

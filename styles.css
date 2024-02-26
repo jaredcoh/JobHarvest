@@ -22,7 +22,8 @@ header {
 
 body {
     background-color: #fff8ef; /* Light grey background color */
-    width: 500px !important;
+    min-width: 500px !important;
+    max-width: 700px !important;
     height:500px !important;
     overflow-y: auto;
 }

@@ -1,5 +1,4 @@
 function indeedParser(tempDocument) {
-    console.log(tempDocument)
     const jobAnchorLetters = ['l', 'k'];
     const locAnchorLetters = ['q', 'v'];
     const comAnchorLetters = ['p', 'u'];
@@ -18,9 +17,6 @@ function indeedParser(tempDocument) {
         jobTitleAnchors = tempDocument.querySelectorAll(jobSelector);
         LocationAnchors = tempDocument.querySelectorAll(locSelector);
         CompanyAnchors = tempDocument.querySelectorAll(comSelector);
-        console.log(jobLetter, jobTitleAnchors.length)
-        console.log(locLetter, LocationAnchors.length)
-        console.log(comLetter, CompanyAnchors.length)
         // Check if all elements are found and have the same quantity
         if (jobTitleAnchors.length > 0 && LocationAnchors.length > 0 && CompanyAnchors.length > 0 &&
             jobTitleAnchors.length === LocationAnchors.length && LocationAnchors.length === CompanyAnchors.length) {

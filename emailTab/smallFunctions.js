@@ -171,7 +171,7 @@ function addData(job, jobsTable, colList, entry){
             break;
         case 'Source':
             const sourceCell = row.insertCell(-1);
-            sourceCell.innerHTML = entry.jobSite;
+            sourceCell.innerHTML = capitalizeFirstLetter(entry.jobSite);
             sourceCell.style.border = '1px solid #ddd';
             break;
         default:
@@ -192,6 +192,10 @@ function createDeleteEmailButton(delEmailRow, entry) {
         delEmailButton.innerText = 'Email Trashed!';
     });
     delEmailCell.appendChild(delEmailButton);
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function createAndPrepJobTable(colList, entry){
@@ -218,7 +222,6 @@ function createOpenEmailButtonForTable(topRow, entry){
     openButton.style.width = '100%';
     openButton.style.fontSize = '12px';
     openCell.appendChild(openButton);
-    console.log(entry);
     openButton.addEventListener('click', (event) => {
         window.open('https://mail.google.com/mail/u/0/#inbox/' + entry.threadId, '_blank');
         openButton.innerText = 'Opening!';
@@ -250,7 +253,7 @@ function createSendButtonForTable(sendRow) {
         const table = event.target.closest('table');
         const selectedRows = Array.from(table.querySelectorAll('tr:not(.deleted)'));  // Exclude deleted rows
         const selectedText = getSelectedTableText(selectedRows);
-        sendToGoogleSheet(selectedText)
+        getSheetData(selectedText); //this fails now
         sendToSpreadsheetButton.innerText = 'Sent!';
         setTimeout(() => {
             sendToSpreadsheetButton.innerText = 'Send to Spreadsheet';

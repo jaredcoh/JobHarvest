@@ -56,14 +56,12 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                     function: parsingFunction,
                     args: [tabs]
                 }, function(result) {
-                console.log(result)
                 let outputElement = document.getElementById('output')
                 if (chrome.runtime.lastError) {
                     console.error(chrome.runtime.lastError.message);
                     outputElement.textContent = 'An error occurred. Please try again.';
                 }
                 else if (result[0].result.jobTitles.length === 0){
-                    console.log("womp womp")
                     outputElement.textContent = 'No Jobs can be Found on This Page';
                 }
                 else {
@@ -101,8 +99,6 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                             let buttonCell = newRow.insertCell();
                             buttonCell.style.width = '25px';
                             buttonCell.style.display = 'inline-block';
-                            buttonCell.style.justifyContent = 'center'; // Center horizontally
-                            buttonCell.style.alignItems = 'center'; // Center vertically
                             let deleteButton = document.createElement('button');
                             deleteButton.textContent = '\u2716';
                             deleteButton.title = 'Delete';
@@ -126,7 +122,6 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                                         break;
                                     case 'Company':
                                         let compCell = newRow.insertCell();
-                                        console.log(companyNameInput)
                                         compCell.textContent = (companyNameInput) ? companyNameInput : (tabs[0].url.match(/workforcenow/i) ? "N/A" : (tabs[0].url.match(/https?:\/\/([^./]+)/)[1].charAt(0).toUpperCase() + tabs[0].url.match(/https?:\/\/([^./]+)/)[1].slice(1) || ""));
 
                                         compCell.style.border = '1px solid #ddd';

@@ -2,7 +2,6 @@
 
 chrome.storage.local.get(["ignorePhrases", "numEmails", "sheetsURL", "sheetsTab", "startColumn", "endColumn", "column1", "column2", "column3", "column4", "column5", "column6"], function(data) {
   // Extract constants from the retrieved data
-  console.log(data);
   const sheetsURL = data.sheetsURL;
   const sheetsTab = data.sheetsTab;
   const startColumn = (data.startColumn || "").toUpperCase();
@@ -16,20 +15,6 @@ chrome.storage.local.get(["ignorePhrases", "numEmails", "sheetsURL", "sheetsTab"
   const column6 = data.column6 || "";
   const ignorePhrases = data.ignorePhrases || "";
   const apiKey = "AIzaSyDGj6fCXhfKER_ZCknY6dHBHt7k4w8e_fM";
-
-  console.log("Executing script with constants:");
-  console.log("sheetsURL:", sheetsURL);
-  console.log("sheetsTab:", sheetsTab);
-  console.log("startColumn:", startColumn);
-  console.log("endColumn:", endColumn);
-  console.log("numEmails:", numEmails);
-  console.log("column1:", column1);
-  console.log("column2:", column2);
-  console.log("column3:", column3);
-  console.log("column4:", column4);
-  console.log("column5:", column5);
-  console.log("column6:", column6);
-  console.log("ignorePhrases:", ignorePhrases);
   columnList = [column1, column2, column3, column4, column5, column6]
   // Call your function or execute your code here
   
@@ -37,8 +22,6 @@ chrome.storage.local.get(["ignorePhrases", "numEmails", "sheetsURL", "sheetsTab"
     let searchButton = document.getElementById("search");
     let resultContainer = document.getElementById("resultsContainer")
     searchButton.onclick = async () => {
-      console.log("START");
-      console.log(searchButton)
       searchButton.value = "Identifying User...";
       // Get OAuth token using Chrome Identity API
       const token = await getOAuthToken();
@@ -70,7 +53,6 @@ async function getEmailSubjects(apiKey, token, numEmails) {
   
   if (response.ok) {
     const jsonResponse = await response.json();
-    console.log(jsonResponse)
     const messageIds = jsonResponse.messages.map(message => message.id);
     const threadIds = jsonResponse.messages.map(message => message.threadId);
     const emailDetails = [];

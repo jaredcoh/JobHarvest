@@ -2,7 +2,6 @@
 
 function dictionaryParser(resultContainer, jobDetails, colList, phrasesToIgnore) {
     console.log("Start Parsing");
-    chrome.action.setBadgeText({ text: jobDetails.length.toString() });
     //do not do all the crazy stuff below if nothing exists
     if (jobDetails.length === 0){
         resultContainer.innerHTML = 'No Jobs to show';
@@ -17,11 +16,13 @@ function dictionaryParser(resultContainer, jobDetails, colList, phrasesToIgnore)
 
     //remove the JSON from before
     resultContainer.innerHTML = '';
-    const ignorePhrases = phrasesToIgnore.split(',').map(phrase => phrase.trim());
+    let ignorePhrases = [];
+    if (phrasesToIgnore){
+        ignorePhrases = phrasesToIgnore.split(',').map(phrase => phrase.trim());
+    }
 
     //if unchecked.. (all jobs separated by email)
     jobDetails.forEach((entry, entryIndex) => {
-        console.log(entry)
         const headerElement = document.createElement('div');
             headerElement.innerHTML = `
             <h2 style="font-size: 1.5em; margin-bottom: 0; display: inline;">${toTitleCase(entry.jobSite)}</h2>
@@ -29,9 +30,6 @@ function dictionaryParser(resultContainer, jobDetails, colList, phrasesToIgnore)
             <p style="font-size: 1em; margin-top: 0;">${convertToTimezone(entry.date)}</p>`;
             resultContainer.appendChild(headerElement);
         if (entry.jobs.length > 0){
-            console.log(entry.jobs)
-            
-
             jobsTable = createAndPrepJobTable(colList, entry)
             forEachEntry(entry, jobsTable, colList, resultContainer, ignorePhrases)
         }
@@ -39,7 +37,7 @@ function dictionaryParser(resultContainer, jobDetails, colList, phrasesToIgnore)
             headerElement.innerHTML += `<p>This entry contains a keyword but is not a job alert</p>`;
             const jobsTable = document.createElement('table');
             jobsTable.style.borderCollapse = 'collapse';
-            jobsTable.style.overflowX = 'auto';
+            jobsTable.style.overflowX = 'hidden';
             jobsTable.style.width = '100%';
             const topRow = jobsTable.insertRow();
             createDeleteEmailButton(topRow, entry);
@@ -47,5 +45,4 @@ function dictionaryParser(resultContainer, jobDetails, colList, phrasesToIgnore)
             resultContainer.appendChild(jobsTable); 
         }   
     });
-    console.log("FINISHED");
 }
