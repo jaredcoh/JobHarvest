@@ -90,6 +90,9 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                     //1) see what type it is
                     //2) see what it looks like wtih multiple things
                     //3) rewrite to handle 1 phrase, 0phrase, 2+ phrase
+                    if (ignorePhrases === ""){
+                        ignorePhrases = "ABABABABABAB,BABABABAB"
+                    }
                     let phrasesToIgnore = ignorePhrases.split(',').map(phrase => phrase.trim()).filter(phrase => phrase !== '');
                     // Add data rows
                     for (let i = 0; i < data.jobTitles.length; i++) {

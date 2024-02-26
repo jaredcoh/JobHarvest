@@ -1,6 +1,6 @@
 
 * {
-    font-size: large;
+    font-size: small;
     font-family: Inter, sans-serif;
     
 }
@@ -10,7 +10,7 @@ header {
     background-color: #fff8ef; /* Light grey background color */
     background-size: cover; /* Ensure the image covers the entire header */
     background-position: center; /* Center the background image */
-    padding: 49px; /* Add padding for spacing */
+    padding: 40px; /* Add padding for spacing */
     top: 0;
     margin: 0; /* Reset margin */
     position: fixed; /* Fix the header at the top */
@@ -22,8 +22,8 @@ header {
 
 body {
     background-color: #fff8ef; /* Light grey background color */
-    min-width: 500px !important;
-    max-width: 700px !important;
+    min-width: 400px !important;
+    max-width: 500px !important;
     height:500px !important;
     overflow-y: auto;
 }
@@ -36,16 +36,16 @@ textarea {
 }
 #title{
     position: fixed; /* Make the button fixed */
-    top: 20px; /* Adjust the distance from the top as needed */
+    top: 15px; /* Adjust the distance from the top as needed */
     left: 50%; /* Center horizontally */
     text-align: center;
     transform: translateX(-50%); /* Center horizontally */
-    padding: 15px 50px; /* Adjust padding as needed for a larger button */
+    padding: 15px 30px; /* Adjust padding as needed for a larger button */
     border: none;
     border-radius: 25px; /* Rounded corners */
     background-color: #DAA520; /* Light teal background */
     color: #fff; /* White text */
-    font-size: x-large; /* Larger font size */
+    font-size: large; /* Larger font size */
     font-weight: bold; /* Bolder font weight */
     display: inline-block; /* Ensures text stays centered */
     white-space: nowrap; /* Prevents text from wrapping */
@@ -53,8 +53,8 @@ textarea {
 
 #search {
     position: fixed; /* Make the button fixed */
-    top: 20px; /* Adjust the distance from the top as needed */
     left: 50%; /* Center horizontally */
+    top: 15px; /* Adjust the distance from the top as needed */
     transform: translateX(-50%); /* Center horizontally */
     padding: 15px 30px; /* Adjust padding as needed for a larger button */
     border-width: 2px;
@@ -63,7 +63,7 @@ textarea {
     border-radius: 25px; /* Rounded corners */
     background-color: #DAA520; /* Light teal background */
     color: #fff; /* White text */
-    font-size: x-large; /* Larger font size */
+    font-size: large; /* Larger font size */
     font-weight: bold; /* Bolder font weight */
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for color change */
@@ -137,7 +137,12 @@ textarea {
     /* Add some padding to create space between header and content */
     padding-top: 100px;
     padding-bottom: 100px;
-  }
+}
+
+#tutorial{
+    font-size: 8px;
+}
+
 #footer {
     position: fixed;
     bottom: 0;
