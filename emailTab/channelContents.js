@@ -30,7 +30,7 @@ chrome.storage.local.get(["ignorePhrases", "numEmails", "sheetsURL", "sheetsTab"
       const emailDetails = await getEmailSubjects(apiKey, token, numEmails);
       searchButton.value = "Parsing...";
       // Call dictionaryParser with the output of getEmailSubjects
-      dictionaryParser(resultsContainer, emailDetails, columnList, ignorePhrases);
+      dictionaryParser(resultContainer, emailDetails, columnList, ignorePhrases);
       searchButton.value = "Finished!";
       setTimeout(() => {
         searchButton.value = "Search Your Email";

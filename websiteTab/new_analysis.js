@@ -72,7 +72,7 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                     table.style.borderCollapse = 'collapse'; // Apply collapsed borders
 
                     const topRow = table.insertRow();
-                    createSendButtonForTable(topRow);
+                    createSendButtonForTable(topRow,sheetsURL, sheetsTab, startColumn, endColumn);
                     createCopyButtonForTable(topRow); 
 
                     let headerRow = table.insertRow();
@@ -112,7 +112,7 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                                 switch (col) {
                                     case 'Date':
                                         let dateCell = newRow.insertCell(); // Adding 1 to index to skip deleteCell
-                                        dateCell.textContent = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' });
+                                        dateCell.textContent = formatDate(new Date()); 
                                         dateCell.style.border = '1px solid #ddd';
                                         break;
                                     case 'Job Title':
@@ -142,7 +142,7 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                                         break;
                                     case 'Source':
                                         let sourceCell = newRow.insertCell();
-                                        sourceCell.textContent = "Website";
+                                        sourceCell.textContent = "Company Website";
                                         sourceCell.style.border = '1px solid #ddd';
                                         sourceCell.style.width = '50px';
                                         break;
@@ -245,7 +245,7 @@ function determineParsingFunction(tabs) {
     return null;
 }
 
-function createSendButtonForTable(sendRow) {
+function createSendButtonForTable(sendRow,sheetsURL, sheetsTab, startColumn, endColumn) {
     
     const sendCell = sendRow.insertCell(0);
     sendCell.colSpan = 3;
@@ -259,7 +259,7 @@ function createSendButtonForTable(sendRow) {
         const table = event.target.closest('table');
         const selectedRows = Array.from(table.querySelectorAll('tr:not(.deleted)'));  // Exclude deleted rows
         const selectedText = getSelectedTableText(selectedRows);
-        sendToGoogleSheet(selectedText)
+        sendToGoogleSheet(selectedText,sheetsURL, sheetsTab, startColumn, endColumn)
         sendToSpreadsheetButton.innerText = 'Sent!';
         setTimeout(() => {
             sendToSpreadsheetButton.innerText = 'Send to Spreadsheet';
@@ -423,7 +423,7 @@ function tableToCSV(htmlTable) {
     return csv;
 }
 
-function sendToGoogleSheet(jobs) {
+function sendToGoogleSheet(jobs,sheetsURL, sheetsTab, startColumn, endColumn) {
     // Check if the sheetsURL and sheetsTab are provided
     if (!sheetsURL || !sheetsTab) {
     console.error('Sheets URL and Tab Name are required');
