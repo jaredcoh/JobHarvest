@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" href="../styles.css">
+
+  <body>
+    <header>
+      <label id="title">Search Preferences</label>
+    </header>
+    <div id= "content">
+      <h2>Choose Your Search Preferences</h2>
+      <div>
+        <label for="numEmails">Number of Inbox Emails to Check:
+        <select id="numEmails">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="25" selected>25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="200">200</option>
+          <option value="500">500</option>
+        </select></label>
+      </div>
+      <div>
+        <label for="ignorePhrases">Phrases to Ignore (comma-seperated):
+        <input type="text" id="ignorePhrases" placeholder="Enter phrases to ignore"></label>
+      </div>
+
+      <div>
+        <label for="sheetsURL">Sheets URL:
+        <input type="text" id="sheetsURL" placeholder="Enter Sheets URL"></label>
+      </div>
+      
+      <div>
+        <label for="sheetsTab">Sheets Tab Name:
+        <input type="text" id="sheetsTab" placeholder="Enter Tab Name"></label>
+      </div>
+      
+      <div>
+        <label for="startColumn">Column Range (inclusive):
+        <input type="text" id="startColumn" placeholder="Start" style="width: 3em;">
+        :
+        <input type="text" id="endColumn" placeholder="End" style="width: 3em;"></label>
+      </div>
+
+      <div>
+        <label>Column 1:
+        <select id="option1">
+          <option value="none">None</option>
+          <option value="Job Title">Job Title</option>
+          <option value="Company">Company</option>
+          <option value="Location">Location</option>
+          <option value="Link">Link</option>
+          <option value="Date" selected>Date</option>
+          <option value="Source">Source</option>
+        </select></label>
+      </div>
+
+      <div>
+        <label>Column 2:
+        <select id="option2">
+          <option value="none">None</option>
+          <option value="Job Title">Job Title</option>
+          <option value="Company" selected>Company</option>
+          <option value="Location">Location</option>
+          <option value="Link">Link</option>
+          <option value="Date">Date</option>
+          <option value="Source">Source</option>
+        </select></label>
+      </div>
+
+      <div>
+        <label>Column 3:
+        <select id="option3">
+          <option value="none">None</option>
+          <option value="Job Title">Job Title</option>
+          <option value="Company">Company</option>
+          <option value="Location" selected>Location</option>
+          <option value="Link">Link</option>
+          <option value="Date">Date</option>
+          <option value="Source">Source</option>
+        </select></label>
+      </div>
+
+      <div>
+        <label>Column 4:
+        <select id="option4">
+          <option value="none">None</option>
+          <option value="Job Title">Job Title</option>
+          <option value="Company">Company</option>
+          <option value="Location" selected>Location</option>
+          <option value="Link">Link</option>
+          <option value="Date">Date</option>
+          <option value="Source">Source</option>
+        </select></label>
+      </div>
+
+      <div>
+        <label>Column 5:
+        <select id="option5">
+          <option value="none">None</option>
+          <option value="Job Title">Job Title</option>
+          <option value="Company">Company</option>
+          <option value="Location">Location</option>
+          <option value="Link">Link</option>
+          <option value="Date" selected>Date</option>
+          <option value="Source">Source</option>
+        </select></label>
+      </div>
+      <div>
+        <label>Column 6:
+        <select id="option6">
+          <option value="none">None</option>
+          <option value="Job Title">Job Title</option>
+          <option value="Company">Company</option>
+          <option value="Location">Location</option>
+          <option value="Link">Link</option>
+          <option value="Date">Date</option>
+          <option value="Source" selected>Source</option>
+        </select></label>
+      </div>
+    </div>
+  </body>
+  <script src="preferences.js"></script>
+  <script type="module" src="../background.js"></script>
+  <script src="../switch.js"></script>  
+</html>
+
+  
+  

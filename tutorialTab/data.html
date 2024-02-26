@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" type="text/css" href="../styles.css">
+  <body>
+    <header>
+      <label id="title">Welcome to JobHarvest!</label>
+    </header>
+    <div id= "content">
+      <div id="tutorial">
+        <div>
+          <p>This extension is designed to help ease your job searching stress! It is currently able to complete two main functions:</p>
+          <ol>
+            <li>Help you search and filter company website Job Boards and send them to your spreadsheet</li>
+            <li>Help filter your Job Alert emails and send them to your spreadsheet.</li>
+          </ol>
+        </div>
+        <div>
+          <p>Below, I provide additional context to each menu and how to use each:</p>
+          <hr>
+          <div><strong>Using the 'Settings' Tab</strong></div>
+          <ul>
+            <li><u>Number of Emails to Check:</u> Choose a number provided from the drop down. It goes from most recent to least recent.</li>
+            <li><u>Phrases to ignore:</u> Every phrase separated by commas will be checked with every job and will be removed if it has it in common.</li>
+            <li><u>Sheets information:</u> If you are looking to send your jobs to a Google Sheet, you can provide the Sheets URL, Tab Name, and Column Range to ensure it goes in the right spot. Make sure your sheet has no empty rows or else it will start there!</li>
+            <li><u>Columns 1-6:</u> This is the order that your data will be placed in on the tables.</li>
+          </ul>
+          <hr>
+          <div><strong>Using the 'Search Email' Tab</strong></div>
+          <p><i>Currently working: Glassdoor, LinkedIn, Indeed</i></p>
+          <ul>
+            <li>This tab is where you will see your emails from Job Alert companies</li>
+            <li>Click the "Search Your Email" button to start its use</li>
+            <li>After OAuth and Email Searching/Parsing, it will show you your emails with several options:</li>
+            <ul>
+              <li>Copy Table Button: Copy table in clipboard</li>
+              <li>Open Email Button: Opens email in another tab</li>
+              <li>Send to Sheet Button: Sends table to desired Google Sheet</li>
+              <li>Trash Email: Trashes Email (does not permanently delete)</li>
+              <li>Sort Rows: Sort Jobs per-email by ascending or descending</li>
+            </ul>
+            <li>On each row you can:</li>
+            <ul>
+              <li>Delete Row: Click the X button</li>
+              <li>Open Website: Click the "Link" to open in a new tab</li>
+            </ul>
+          </ul>
+          <hr>
+          <div><strong>Using the 'Search Website' Tab</strong></div>
+          <p><i>Currently working: Workday, ADP/WorkforceNow, Eightfold.AI</i></p>
+          <ul>
+            <li>This tab is where you will see jobs when you are on the company's job page</li>
+            <li>This section will likely work if you see a "!" badge in the extension's logo</li>
+            <li>When you enter this page, it should automatically show you the list of jobs on the page with several options:</li>
+            <ul>
+              <li>Copy Table Button: Copy table in clipboard</li>
+              <li>Send to Sheet Button: Sends table to desired Google Sheet</li>
+            </ul>
+            <li>On each row you can:</li>
+            <ul>
+              <li>Delete Row: Click the X button</li>
+              <li>Open Website: Click the "Link" to open in a new tab</li>
+            </ul>
+          </ul>
+          <hr>
+          <p>Happy Searching!</p>
+        </div>
+      </div>
+      <br>
+      <div class="footer2">
+        <h3><a href="mailto:jaredscohen2000@gmail.com" class="button" target="_blank">Reach out to me here for questions, bugs, or ideas for future improvements!</a></h3>
+        <a href="https://github.com/jaredcoh/JobHarvest" class="button" target="_blank">GitHub Link</a>
+        <a href="https://www.jaredscottcohen.com/job-harvest" class="button" target="_blank">Privacy Policy</a>
+        <br>
+        <br>
+        <br>
+        <h4><a href="https://www.jaredscottcohen.com"></a>Jared Cohen | www.jaredscottcohen.com </h4>
+        <img src="/imgs/JobHarvest.png" class="footer-image" alt="Footer Image">
+    </div>
+  </div>
+  
+  <div id="footer">
+      <button id="wButton" class="button light" title="Search Website">
+        <img src="../imgs/websiteSearch.png" width="30" height="30">
+      </button>
+      <button id="eButton" class="button light"  title="Search Email">
+        <img src="../imgs/searchEmail.svg" width="30" height="30">
+      </button>
+      <button id="tButton" class="button" title="Tutorial">
+        <img src="../imgs/tutorial.svg" width="30" height="30" style="padding-top: 3px; filter:invert(90%);">
+      </button>
+      <button id="sButton" class="button light" title="Settings">
+        <img src="../imgs/settings.png" width="30" height="30" style="padding-top: 3px;">
+      </button>
+    </div>
+  </body>
+  <script type="module" src="../background.js"></script>
+  <script src="../switch.js"></script> 
+</html>
+
+  
+  

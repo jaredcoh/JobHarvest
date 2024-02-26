@@ -40,8 +40,8 @@ function indeedParser(tempDocument) {
         const href = jobTitleAnchor.getAttribute('href');
         // Check if there is a corresponding job location and company
         if (LocationAnchors.length > index && CompanyAnchors.length > index) {
-            const locationName = LocationAnchors[index].textContent.trim().replace("- ", "");;
-            const companyName = CompanyAnchors[index].textContent.trim().replace(/Â/g, "");;
+            const locationName = LocationAnchors[index].textContent.trim().replace("- ", "");
+            const companyName = CompanyAnchors[index].textContent.trim().replace(/\u00C2/, "");
             // Push job details to the array
             jobDetails.push({
                 jobTitle,

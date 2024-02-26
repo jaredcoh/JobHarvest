@@ -26,42 +26,19 @@ function convertToTimezone2(dateString) {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    const tutorial = document.getElementById('tutorial');
-    const hideTutorialCheckbox = document.getElementById('hideTutorial');
-    
-    // Check if the tutorial is initially hidden
-    let tutorialHidden = localStorage.getItem('tutorialHidden') === 'true';
-    
-    // Set initial state of the checkbox based on tutorial visibility
-    hideTutorialCheckbox.checked = tutorialHidden;
-
-    if (tutorialHidden) {
-        tutorial.style.display = 'none';
-    } else {
-        tutorial.style.display = 'block';
+    // Check if the JSON format header exists before hiding it
+    const jsonHeader = document.getElementById('jsonHeader');
+    if (jsonHeader) {
+        jsonHeader.style.display = 'none';
     }
-    
-    // Event listener for the "Hide Tutorial" checkbox
-    hideTutorialCheckbox.addEventListener('change', function () {
-        // Toggle tutorial visibility based on checkbox state
-        tutorialHidden = hideTutorialCheckbox.checked;
-        if (tutorialHidden) {
-            tutorial.style.display = 'none';
-        } else {
-            tutorial.style.display = 'block';
-        }
-        
-        // Save preference
-        localStorage.setItem('tutorialHidden', tutorialHidden);
-    });
+
+    // Check if the textarea exists before hiding it
+    const resultTextArea = document.getElementById('result');
+    if (resultTextArea) {
+        resultTextArea.style.display = 'none';
+    }
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    // Hide the JSON format header
-    document.getElementById('jsonHeader').style.display = 'none';
-    // Hide the textarea
-    document.getElementById('result').style.display = 'none';
-});
 
 
 async function getOAuthToken() {
@@ -79,7 +56,6 @@ async function getOAuthToken() {
 
 function forEachEntry(entry, jobsTable, colList, resultContainer, phrasesToIgnore){
     entry.jobs.forEach(job => {
-        job.locationName = removeParentheses(job.locationName);
         if (shouldAddJob(job, phrasesToIgnore)){
             addData(job, jobsTable, colList, entry)
         };
@@ -107,15 +83,15 @@ function sortTable(table, columnIndex) {
 
     if (currentOrder === 'desc') {
         ascending = false;
-        indicator = '▾'; // Downward triangle for descending
+        indicator = '&#x25BE;'; // Downward triangle for descending
         table.setAttribute('data-sort-order', 'asc');
     } else {
-        indicator = '▴'; // Upward triangle for ascending
+        indicator = '&#x25B4;'; // Upward triangle for ascending
         table.setAttribute('data-sort-order', 'desc');
     }
     
     if (currentOrder === 'none') {
-        indicator = '◈'; // Square for neither ascending nor descending
+        indicator = '&#x25C8;'; // Square for neither ascending nor descending
         table.setAttribute('data-sort-order', 'asc'); // Default to ascending on first click
     }
 
@@ -135,7 +111,7 @@ function sortTable(table, columnIndex) {
             headerCell.innerHTML = `<strong>${headerCell.innerText.slice(0, -1)}${indicator}</strong>`;
         }
         else{
-            headerCell.innerHTML = `<strong>${headerCell.innerText.slice(0, -1)}◈</strong>`;
+            headerCell.innerHTML = `<strong>${headerCell.innerText.slice(0, -1)}&#x25C8;</strong>`;
         }
     });
 
@@ -149,7 +125,7 @@ function addColHeader(colList, headerRow){
     colList.forEach((col, index) => {
         if (col.toLowerCase() !== 'none') {
             const headerCell = document.createElement('th');
-            headerCell.innerHTML = `<strong>${col}◈</strong>`;
+            headerCell.innerHTML = `<strong>${col}&#x25C8;</strong>`;
             headerCell.style.border = '1px solid #ddd';
             headerCell.style.cursor = 'pointer'; // Add cursor style
             headerCell.addEventListener('click', () => {
@@ -221,10 +197,9 @@ function createDeleteEmailButton(delEmailRow, entry) {
 function createAndPrepJobTable(colList, entry){
     const jobsTable = document.createElement('table');
     jobsTable.style.borderCollapse = 'collapse';
-    jobsTable.style.overflowX = 'scroll';
+    jobsTable.style.overflowX = 'auto';
     const topRow = jobsTable.insertRow();
-    if (!document.getElementById("combineJobs").checked){
-        createDeleteEmailButton(topRow, entry);}
+    createDeleteEmailButton(topRow, entry);
     createSendButtonForTable(topRow);
     createOpenEmailButtonForTable(topRow, entry); 
     createCopyButtonForTable(topRow); 
@@ -309,21 +284,16 @@ function createCopyButtonForTable(headerRow) {
 function createDeleteButton(row) {
     const deleteCell = row.insertCell(0);
     const deleteButton = document.createElement('button');
-    deleteButton.innerText = '\u2716';
-    deleteButton.style.fontSize = '20px';
-    deleteButton.style.width = '100%';
+    deleteButton.innerHTML = '\u2716'; // Use HTML entity for 'x' symbol
+    deleteButton.style.fontSize = '14px'; // Decrease font size for smaller 'x'
+    deleteButton.style.width = '30px'; // Set a fixed width and height for circular shape
+    deleteButton.style.height = '30px';
+    deleteButton.style.borderRadius = '50%'; // Make the button circular
+    deleteButton.id = "delete"; // Set the ID for the button
     deleteButton.addEventListener('click', () => {
         row.remove();
     });
     deleteCell.appendChild(deleteButton);
-}
-
-function removeParentheses(text) {
-    if (!document.getElementById("parenthesis").checked) {
-        // Remove parentheses and their contents from the text
-        return text.replace(/\([^)]*\)/g, '').trim();
-    }
-    return text; // Return the original text if checkbox is checked
 }
 
 async function deleteEmail(emailId) {

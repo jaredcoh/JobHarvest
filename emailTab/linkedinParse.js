@@ -13,14 +13,13 @@ function linkedinParser(tempDocument){
         const jobTitle = jobTitleAnchor.textContent.trim();
         const href = jobTitleAnchor.getAttribute('href');
         // Check if there is a corresponding job location
+        
         if (jobLocationParagraphs.length > index) {
             const jobLocationComp = jobLocationParagraphs[index].textContent.trim();
-            const splitArray = jobLocationComp.split('·');
-        
+            const splitArray = jobLocationComp.split(/[·•⸱∙・]/);
             // Trim whitespace from both the company and location strings
             const companyName = splitArray[0].trim();
             const locationName = splitArray[1].trim();
-        
             // Push job details to the array
             jobDetails.push({
             jobTitle,

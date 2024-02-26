@@ -1,34 +1,66 @@
-﻿
 
-const searchButton = document.getElementById("search");
-const resultDiv = document.getElementById("result");
-const apiKey = "AIzaSyDGj6fCXhfKER_ZCknY6dHBHt7k4w8e_fM";
-const resultsContainer = document.getElementById("resultsContainer");
 
-if (searchButton && resultsContainer) {
-  searchButton.onclick = async () => {
-    console.log("START");
-    console.log(searchButton)
-    searchButton.value = "Identifying User...";
-    // Get OAuth token using Chrome Identity API
-    const token = await getOAuthToken();
-    searchButton.value = "Searching...";
-    // Call getEmailSubjects and pass apiKey, token, and resultsContainer
-    const emailDetails = await getEmailSubjects(apiKey, token);
-    searchButton.value = "Parsing...";
-    // Call dictionaryParser with the output of getEmailSubjects
-    dictionaryParser(resultsContainer, emailDetails);
-    searchButton.value = "Finished!";
-    setTimeout(() => {
-      searchButton.value = "Search Your Email";
-    }, 2000);
-  };
-}
+chrome.storage.local.get(["ignorePhrases", "numEmails", "sheetsURL", "sheetsTab", "startColumn", "endColumn", "column1", "column2", "column3", "column4", "column5", "column6"], function(data) {
+  // Extract constants from the retrieved data
+  console.log(data);
+  const sheetsURL = data.sheetsURL;
+  const sheetsTab = data.sheetsTab;
+  const startColumn = (data.startColumn || "").toUpperCase();
+  const endColumn = (data.endColumn || "").toUpperCase();
+  const numEmails = data.numEmails || 10;
+  const column1 = data.column1 || "";
+  const column2 = data.column2 || "";
+  const column3 = data.column3 || "";
+  const column4 = data.column4 || "";
+  const column5 = data.column5 || "";
+  const column6 = data.column6 || "";
+  const ignorePhrases = data.ignorePhrases || "";
+  const apiKey = "AIzaSyDGj6fCXhfKER_ZCknY6dHBHt7k4w8e_fM";
 
-async function getEmailSubjects(apiKey, token) {
+  console.log("Executing script with constants:");
+  console.log("sheetsURL:", sheetsURL);
+  console.log("sheetsTab:", sheetsTab);
+  console.log("startColumn:", startColumn);
+  console.log("endColumn:", endColumn);
+  console.log("numEmails:", numEmails);
+  console.log("column1:", column1);
+  console.log("column2:", column2);
+  console.log("column3:", column3);
+  console.log("column4:", column4);
+  console.log("column5:", column5);
+  console.log("column6:", column6);
+  console.log("ignorePhrases:", ignorePhrases);
+  columnList = [column1, column2, column3, column4, column5, column6]
+  // Call your function or execute your code here
+  
+  if (document.getElementById("search") && document.getElementById("resultsContainer")) {
+    let searchButton = document.getElementById("search");
+    let resultContainer = document.getElementById("resultsContainer")
+    searchButton.onclick = async () => {
+      console.log("START");
+      console.log(searchButton)
+      searchButton.value = "Identifying User...";
+      // Get OAuth token using Chrome Identity API
+      const token = await getOAuthToken();
+      searchButton.value = "Searching...";
+      // Call getEmailSubjects and pass apiKey, token, and resultsContainer
+      const emailDetails = await getEmailSubjects(apiKey, token, numEmails);
+      searchButton.value = "Parsing...";
+      // Call dictionaryParser with the output of getEmailSubjects
+      dictionaryParser(resultsContainer, emailDetails, columnList, ignorePhrases);
+      searchButton.value = "Finished!";
+      setTimeout(() => {
+        searchButton.value = "Search Your Email";
+      }, 2000);
+    };
+  }
+});
+
+
+
+async function getEmailSubjects(apiKey, token, numEmails) {
   // Get the selected value from the dropdown
-  const selectedValue = document.getElementById("numEmails").value;
-  const url = `https://www.googleapis.com/gmail/v1/users/me/messages?q=in:inbox&maxResults=${selectedValue}&key=${apiKey}`;
+  const url = `https://www.googleapis.com/gmail/v1/users/me/messages?q=in:inbox&maxResults=${numEmails}&key=${apiKey}`;
 
   const response = await fetch(url, {
     headers: {

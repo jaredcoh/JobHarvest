@@ -1,0 +1,169 @@
+
+* {
+    font-size: large;
+    font-family: Inter, sans-serif;
+    
+}
+
+header {
+    background-image: url('../imgs/header-background.png');
+    background-color: #fff8ef; /* Light grey background color */
+    background-size: cover; /* Ensure the image covers the entire header */
+    background-position: center; /* Center the background image */
+    padding: 49px; /* Add padding for spacing */
+    top: 0;
+    margin: 0; /* Reset margin */
+    position: fixed; /* Fix the header at the top */
+    width: 100%; /* Make the header span the full width */
+    z-index: 10; /* Ensure the header is above other elements */
+    border-bottom: 1px solid black;
+    height:0px;
+}
+
+body {
+    background-color: #fff8ef; /* Light grey background color */
+    width: 500px !important;
+    height:500px !important;
+    overflow-y: auto;
+}
+
+textarea {
+    width: 98%;
+}
+.checkbox-container {
+    margin-left: 20px; /* Adjust the margin as needed */
+}
+#title{
+    position: fixed; /* Make the button fixed */
+    top: 20px; /* Adjust the distance from the top as needed */
+    left: 50%; /* Center horizontally */
+    text-align: center;
+    transform: translateX(-50%); /* Center horizontally */
+    padding: 15px 50px; /* Adjust padding as needed for a larger button */
+    border: none;
+    border-radius: 25px; /* Rounded corners */
+    background-color: #DAA520; /* Light teal background */
+    color: #fff; /* White text */
+    font-size: x-large; /* Larger font size */
+    font-weight: bold; /* Bolder font weight */
+    display: inline-block; /* Ensures text stays centered */
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+#search {
+    position: fixed; /* Make the button fixed */
+    top: 20px; /* Adjust the distance from the top as needed */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+    padding: 15px 30px; /* Adjust padding as needed for a larger button */
+    border-width: 2px;
+    border-style: solid; /* or dashed, dotted, etc. */
+    border-color: #fff8ef;
+    border-radius: 25px; /* Rounded corners */
+    background-color: #DAA520; /* Light teal background */
+    color: #fff; /* White text */
+    font-size: x-large; /* Larger font size */
+    font-weight: bold; /* Bolder font weight */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for color change */
+}   
+
+#search:hover {
+    background-color: #dab860; /* Dark teal on hover */
+    color: #fff; /* White text on hover */
+}
+
+#search:active {
+    background-color: #382b0a; /* Black when clicked */
+    color: #fff; /* White text when clicked */
+}
+
+#resultsContainer {
+    max-width: 100%; /* Adjust the max-width as needed */
+    word-wrap: break-word;
+}
+.footer2 {
+    background-color: #8B5A2B;
+    color: #fff;
+    padding: 5px;
+    text-align: center;
+    position: relative; /* Change position to relative */
+    margin-top: 20px; /* Add margin-top to create space between the JSON box and footer */
+    width: 100%;
+}
+
+
+.footer2 a.button {
+    color: #fff;
+    text-decoration: none;
+    background-color: #DAA520; /* Choose your preferred button color */
+    padding: 5px 10px; /* Adjust padding for the button */
+    border-radius: 5px; /* Add rounded corners to the button */
+    border: 1px solid #fff; /* Add border to the button */
+    font-size: 12px;
+}
+.footer2 h4 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 5px; /* Add some margin for spacing */
+    font-size: small;
+    line-height: inherit;
+}
+.footer-image {
+    position: absolute;
+    bottom: 10px; /* Adjust the distance from the bottom as needed */
+    right: 10px; /* Adjust the distance from the right as needed */
+    width: 60px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+#result {
+    padding-bottom: 100px; /* Adjust the value as needed */
+}
+
+#delete {
+    background-color: #DAA520; /* Brown fill */
+    border: none; /* No border */
+    border-radius: 50%; /* Make it a circle */
+    color: white; /* White text */
+    width: 20px; /* Set width */
+    height: 20px; /* Set height */
+    font-size: 10px; /* Adjust font size */
+    cursor: pointer;
+}
+#content {
+    /* Add some padding to create space between header and content */
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f0f0f0; /* Footer background color */
+    padding-top: 10px; /* Padding only at the top */
+    padding-bottom: 10px; /* Padding only at the bottom */
+    text-align: center;
+    z-index: 999; /* Ensure the footer stays on top of other content */
+}
+.button {
+    background-color: #333; /* Dark button color */
+    color: #fff; /* Button text color */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: small;
+    padding: 6px 30px; /* Adjusted padding for wider buttons */
+    
+.button img {
+    vertical-align: middle; /* Align the image vertically in the center */
+}
+}
+.button.light {
+    background-color: #ccc; /* Light button color */
+    color: #333; /* Button text color */
+}
+.button:not(:last-child) {
+    margin-right: 20px; /* Add margin between buttons */
+}
