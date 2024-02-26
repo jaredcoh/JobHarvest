@@ -143,8 +143,8 @@ textarea {
     bottom: 0;
     width: 100%;
     background-color: #f0f0f0; /* Footer background color */
-    padding-top: 10px; /* Padding only at the top */
-    padding-bottom: 10px; /* Padding only at the bottom */
+    padding-top: 5px; /* Padding only at the top */
+    padding-bottom: 5px; /* Padding only at the bottom */
     text-align: center;
     z-index: 999; /* Ensure the footer stays on top of other content */
 }

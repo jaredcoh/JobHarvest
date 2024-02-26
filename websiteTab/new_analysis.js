@@ -137,6 +137,7 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                                         link.href = data.links[i];
                                         link.textContent = 'Link';
                                         link.title = 'Click to open';
+                                        link.target = '_blank'; // Set target attribute to _blank
                                         linkCell.style.border = '1px solid #ddd';
                                         linkCell.appendChild(link);
                                         break;
@@ -202,7 +203,8 @@ function workdayParse(tabs) {
     locationElementsRaw = document.querySelectorAll('div[data-automation-id="locations"] dd');
     for (let element of jobTitleElementsRaw) {
         jobTitles.push(element.innerText.trim());
-        links.push(tabs[0].url + element.getAttribute('href'));
+        links.push(tabs[0].url.match(/^(https?:\/\/[^\/]+)/)[1] + element.getAttribute('href'));
+        //links.push(tabs[0].url.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+\.com)/)[1] + "/" + element.getAttribute('href'));
     }
     for (let element of locationElementsRaw) {
         locations.push(element.innerText.trim());
