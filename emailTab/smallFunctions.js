@@ -262,6 +262,11 @@ function createSendButtonForTable(sendRow) {
     });
 }
 
+function updateQuantity(jobDetails,numJobs) {
+    const emailText = jobDetails.length === 1 ? "email" : "emails";
+    const jobText = numJobs === 1 ? "job" : "jobs";
+    document.getElementById("number").textContent += ` - ${jobDetails.length} ${emailText} with ${numJobs} (pre-filtered) ${jobText}`;
+}
 
 function createCopyButtonForTable(headerRow) {
     const copyCell = headerRow.insertCell(0);

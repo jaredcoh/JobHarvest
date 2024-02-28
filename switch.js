@@ -27,6 +27,8 @@ function toggleButton(buttonId) {
     }
   });
 }
+//Jared's Phrases to Ignore: 
+//sr, senior, III, manager,IV, VI, director, coop,co-opprincipal, lead, head,field, technician
 
 document.addEventListener('DOMContentLoaded', function() {
   // List of button IDs

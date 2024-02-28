@@ -3,6 +3,7 @@
 function dictionaryParser(resultContainer, jobDetails, colList, phrasesToIgnore) {
     console.log("Start Parsing");
     //do not do all the crazy stuff below if nothing exists
+    
     if (jobDetails.length === 0){
         resultContainer.innerHTML = 'No Jobs to show';
         return;
@@ -20,7 +21,7 @@ function dictionaryParser(resultContainer, jobDetails, colList, phrasesToIgnore)
     if (phrasesToIgnore){
         ignorePhrases = phrasesToIgnore.split(',').map(phrase => phrase.trim());
     }
-
+    let numJobs = 0;
     //if unchecked.. (all jobs separated by email)
     jobDetails.forEach((entry, entryIndex) => {
         const headerElement = document.createElement('div');
@@ -29,6 +30,7 @@ function dictionaryParser(resultContainer, jobDetails, colList, phrasesToIgnore)
             <p style="font-size: 1em; margin-top: 0; margin-bottom: 3px;">${entry.subject.substring(0, 50)}...</p>
             <p style="font-size: 1em; margin-top: 0;">${convertToTimezone(entry.date)}</p>`;
             resultContainer.appendChild(headerElement);
+        numJobs += entry.jobs.length;
         if (entry.jobs.length > 0){
             jobsTable = createAndPrepJobTable(colList, entry)
             forEachEntry(entry, jobsTable, colList, resultContainer, ignorePhrases)
@@ -45,4 +47,6 @@ function dictionaryParser(resultContainer, jobDetails, colList, phrasesToIgnore)
             resultContainer.appendChild(jobsTable); 
         }   
     });
+    updateQuantity(jobDetails, numJobs);
+
 }
