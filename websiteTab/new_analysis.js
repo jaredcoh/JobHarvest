@@ -83,8 +83,10 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                         let cell = headerRow.insertCell();
                         cell.textContent = header !== 'none' ? header : '';
                         cell.style.fontWeight = 'bold'; // Make headers bold
-                        cell.style.border = '1px solid #ddd'; // Light border
                         cell.style.textAlign = 'center'; // Center align text
+                        cell.style.color = 'white';
+                        cell.style.backgroundColor = header !== '' ? '#8B5A2B' : 'none';
+                        cell.style.border = header !== '' ? '1px solid #ddd' : 'none';
                     }
                     let companyNameInput = document.getElementById("companyName").value
                     //1) see what type it is
@@ -99,18 +101,19 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                         let jobTitle = data.jobTitles[i];
                         if (phrasesToIgnore.length === 0 || !phrasesToIgnore.some(phrase => jobTitle.toLowerCase().includes(phrase.toLowerCase()))) {
                             let newRow = table.insertRow();
-                            let buttonCell = newRow.insertCell();
-                            buttonCell.style.width = '25px';
-                            buttonCell.style.display = 'inline-block';
-                            let deleteButton = document.createElement('button');
-                            deleteButton.textContent = '\u2716';
-                            deleteButton.title = 'Delete Row';
-                            deleteButton.id = "delete";
-                            deleteButton.addEventListener('click', function() {
-                                // For example, you can remove the corresponding row from the table
-                                newRow.remove();
-                            });
-                            buttonCell.appendChild(deleteButton);
+                            let cellContainer = newRow.insertCell();
+
+                            // Create a div to contain the buttons
+                            let buttonContainer = document.createElement('div');
+                            buttonContainer.style.display = 'flex'; // Use flexbox to align buttons horizontally
+                            // Create the send to spreadsheet button
+                            sendButtonForRow(buttonContainer);
+
+                            // Create the delete button
+                            createDeleteButton(newRow,buttonContainer);
+                            cellContainer.appendChild(buttonContainer); // Append the button container to the cell
+                            newRow.style.backgroundColor = (newRow.previousElementSibling && newRow.previousElementSibling.style.backgroundColor === 'white') ? '' : 'white';
+
                             colList.forEach((col, index) => {
                                 switch (col) {
                                     case 'Date':
@@ -180,6 +183,44 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
             document.getElementById('output').textContent = 'Unable to access tab information or invalid URL';
         }
     });
+}
+
+function createDeleteButton(row,container) {
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = '\u2716'; // Use HTML entity for 'x' symbol
+    deleteButton.id = "delete"; // Set the ID for the button
+    deleteButton.title = "Delete Row";
+    deleteButton.addEventListener('click', () => {
+        row.remove();
+    });
+    container.appendChild(deleteButton);
+}
+
+function sendButtonForRow(container) {
+    const sendToSpreadsheetButton = document.createElement('button');
+    sendToSpreadsheetButton.innerHTML = '&#10148;'; // Right arrow HTML entity
+    sendToSpreadsheetButton.id = "delete";
+    sendToSpreadsheetButton.title = "Send Row To Spreadsheet";
+    sendToSpreadsheetButton.addEventListener('click', (event) => {
+        const selectedRow = event.target.closest('tr'); // Get the closest row to the button
+        let selectedText = "";
+        const cells = selectedRow.querySelectorAll('td, th');
+        for (let j = 1; j < cells.length; j++) {
+            const cell = cells[j];
+            if (cell.querySelector('a')) {
+                // If cell contains a link, get the href attribute
+                selectedText += cell.querySelector('a').href + "\t";
+            } else {
+                selectedText += cell.innerText + "\t";
+            }
+        }
+        selectedText += "\n";
+        getSheetData(selectedText); // This function needs to be defined elsewhere in your code
+        sendToSpreadsheetButton.innerHTML = '&#x2713';
+        sendToSpreadsheetButton.title = "Sent!"
+    });
+
+    container.appendChild(sendToSpreadsheetButton);
 }
 
 function workforceParse(tabs){
@@ -256,6 +297,7 @@ function createSendButtonForTable(sendRow,sheetsURL, sheetsTab, startColumn, end
     sendCell.colSpan = 3;
     const sendToSpreadsheetButton = document.createElement('button');
     sendToSpreadsheetButton.innerText = 'Send to Sheet';
+    sendToSpreadsheetButton.id = 'email-actions';
     sendToSpreadsheetButton.style.width = '100%';
     sendToSpreadsheetButton.style.fontSize = '12px';
     sendCell.appendChild(sendToSpreadsheetButton);
@@ -436,23 +478,12 @@ function sendToGoogleSheet(jobs,sheetsURL, sheetsTab, startColumn, endColumn) {
     }
     // Construct the Google Sheets API URL
     const spreadsheetId = getSpreadsheetId(sheetsURL);
-    const sheetsAPIURL = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/`;
-    // Get the highest empty row in columns A-E
     
     // Convert HTML table to CSV format
     const csvData = tableToCSV(jobs);
     getHighestEmptyRow(spreadsheetId, sheetsTab, startColumn, endColumn).then(highestEmptyRow => {
-        // Split the CSV data into an array of arrays
-        const rows = csvData.split('\n').map(row => row.split(','));
         // Calculate the range for the update starting from the highest empty row
         const startRange = `${sheetsTab}!${startColumn}${highestEmptyRow + 1}`;
-        const endRange = `${String.fromCharCode(65 + rows[0].length - 1)}${highestEmptyRow + rows.length}`;
-        // Prepare the data object for the API request
-        const requestData = {
-            values: rows,
-        };
-        const token = getOAuthToken();
-    
         // Send a POST request to update the Google Sheet
         // Callback function to handle the response
         const callback = (response) => {
@@ -501,6 +532,7 @@ function createCopyButtonForTable(headerRow) {
     copyCell.colSpan = 3;
     const copyButton = document.createElement('button');
     copyButton.innerText = 'Copy Table';
+    copyButton.id = 'email-actions';
     copyButton.style.width = '100%';
     copyButton.style.fontSize = '12px';
     copyButton.addEventListener('click', (event) => {
@@ -516,3 +548,49 @@ function createCopyButtonForTable(headerRow) {
     copyCell.appendChild(copyButton);
 }
 
+function getSheetData(jobs){
+    chrome.storage.local.get(["sheetsURL", "sheetsTab", "startColumn", "endColumn"], function(data) {
+        // Extract constants from the retrieved data
+        const sheetsURL = data.sheetsURL;
+        const sheetsTab = data.sheetsTab;
+        const startColumn = (data.startColumn || "").toUpperCase();
+        const endColumn = (data.endColumn || "").toUpperCase();
+        
+        // Call sendToGoogleSheet with the retrieved data
+        sendToGoogleSheet(jobs, [sheetsURL, sheetsTab, startColumn, endColumn]);
+    });
+}
+
+// Function to send job information to Google Sheets
+function sendToGoogleSheet(jobs, sheetData) {
+    const sheetsURL = sheetData[0];
+    const sheetsTab = sheetData[1];
+    // Check if the sheetsURL and sheetsTab are provided
+    if (!sheetsURL || !sheetsTab) {
+    console.error('Sheets URL and Tab Name are required');
+    return;
+    }
+    // Construct the Google Sheets API URL
+    const spreadsheetId = getSpreadsheetId(sheetsURL);
+    // Get the highest empty row in columns A-E
+    const startColumn = sheetData[2].toUpperCase(); // Get start column value
+    const endColumn = sheetData[3].toUpperCase(); // Get end column value
+    // Convert HTML table to CSV format
+    const csvData = tableToCSV(jobs);
+    getHighestEmptyRow(spreadsheetId, sheetsTab, startColumn, endColumn).then(highestEmptyRow => {
+        // Split the CSV data into an array of arrays
+        const rows = csvData.split('\n').map(row => row.split(','));
+        // Calculate the range for the update starting from the highest empty row
+        const startRange = `${sheetsTab}!${startColumn}${highestEmptyRow + 1}`;
+    
+        // Send a POST request to update the Google Sheet
+        // Callback function to handle the response
+        const callback = (response) => {
+            console.log('Values appended successfully:', response);
+        };
+        
+        // Call the appendValuesFromCSV function
+        appendValuesFromCSV(spreadsheetId, startRange, 'RAW', csvData, callback);
+
+    })
+}

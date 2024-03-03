@@ -3,11 +3,13 @@
 function dictionaryParser(resultContainer, jobDetails, colList, phrasesToIgnore) {
     console.log("Start Parsing");
     //do not do all the crazy stuff below if nothing exists
-    
+    let numJobs = 0;
     if (jobDetails.length === 0){
         resultContainer.innerHTML = 'No Jobs to show';
+        updateQuantity(jobDetails, numJobs);
         return;
     }        
+    document.getElementById("number").textContent = "Email Search Results"
 
     //edge case when user doesnt want anything or wants default
     if (colList.every(col => col === 'none')) {
@@ -21,7 +23,7 @@ function dictionaryParser(resultContainer, jobDetails, colList, phrasesToIgnore)
     if (phrasesToIgnore){
         ignorePhrases = phrasesToIgnore.split(',').map(phrase => phrase.trim());
     }
-    let numJobs = 0;
+    
     //if unchecked.. (all jobs separated by email)
     jobDetails.forEach((entry, entryIndex) => {
         const headerElement = document.createElement('div');
@@ -45,8 +47,16 @@ function dictionaryParser(resultContainer, jobDetails, colList, phrasesToIgnore)
             createDeleteEmailButton(topRow, entry);
             createOpenEmailButtonForTable(topRow, entry);
             resultContainer.appendChild(jobsTable); 
-        }   
+        }
+        const lineBreak1 = document.createElement('br');
+        resultContainer.appendChild(lineBreak1);
+
+        // Add a horizontal line
+        const horizontalLine = document.createElement('hr');
+        resultContainer.appendChild(horizontalLine);
+
+        const lineBreak3 = document.createElement('br');
+        resultContainer.appendChild(lineBreak3); 
     });
     updateQuantity(jobDetails, numJobs);
-
 }

@@ -26,6 +26,7 @@ body {
     max-width: 500px !important;
     height:500px !important;
     overflow-y: auto;
+    margin: 0;
 }
 
 textarea {
@@ -132,11 +133,51 @@ textarea {
     height: 20px; /* Set height */
     font-size: 10px; /* Adjust font size */
     cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-align: center; /* Center text horizontally */
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
 }
+#delete:hover {
+    background-color: #382b0a; /* Dark teal on hover */
+    border: 1px solid #fff; /* Add border to the button */
+    color: #DAA520; /* White text on hover */
+}
+
+#delete:active {
+    background-color: #382b0a; /* Black when clicked */
+    color: #fff; /* White text when clicked */
+}
+
 #content {
     /* Add some padding to create space between header and content */
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#email-actions{
+    background-color: fff8ef; /* Brown fill */
+    border: 1px solid #DAA520;
+    border-radius: 5px; /* Make it a circle */
+    color: black; /* White text */
+    font-size: 10px; /* Adjust font size */
+    cursor: pointer;
+    height:25px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#email-actions:hover {
+    background-color: white; /* Dark teal on hover */
+    color: #382b0a; /* White text on hover */
+    border: 1px solid #382b0a;
+}
+
+#email-actions:active {
+    background-color: #382b0a; /* Black when clicked */
+    color: #fff; /* White text when clicked */
 }
 
 #tutorial{
@@ -152,24 +193,39 @@ textarea {
     padding-bottom: 5px; /* Padding only at the bottom */
     text-align: center;
     z-index: 999; /* Ensure the footer stays on top of other content */
-}
+    display: flex; /* Use flexbox */
+    justify-content: space-around; /* Evenly space the items */
+    align-items: center; /* Align items vertically in the center */
+    }
 .button {
     background-color: #333; /* Dark button color */
     color: #fff; /* Button text color */
-    border: none;
+    border: 2px solid #333;
     border-radius: 4px;
     cursor: pointer;
     font-size: small;
-    padding: 6px 30px; /* Adjusted padding for wider buttons */
-    
+    padding: 6px 25px; /* Adjusted padding for wider buttons */
+    margin: 5px 5px;
+    transition: border-color 0.3s;
+}   
+.button:hover,
+.button.light:hover { /* Added focus state for better accessibility */
+    border: 2px solid #DAA520; /* Border color on hover */
+}
+
+.button:active,
+.button.light:active {
+    border: none;
+    background-color: 2px solid #DAA520; /* Border color when active */
+} 
 .button img {
     vertical-align: middle; /* Align the image vertically in the center */
 }
-}
+
 .button.light {
     background-color: #ccc; /* Light button color */
     color: #333; /* Button text color */
-}
-.button:not(:last-child) {
-    margin-right: 20px; /* Add margin between buttons */
+    border: 2px solid #ccc;
+    margin: 5px 5px;
+    padding: 6px 25px; /* Adjusted padding for wider buttons */
 }

@@ -53,9 +53,11 @@ async function getEmailSubjects(apiKey, token, numEmails) {
   
   if (response.ok) {
     const jsonResponse = await response.json();
+    console.log(jsonResponse);
     const messageIds = jsonResponse.messages.map(message => message.id);
     const threadIds = jsonResponse.messages.map(message => message.threadId);
     const emailDetails = [];
+
 
     for (const messageId of messageIds) {
       const url2 = `https://www.googleapis.com/gmail/v1/users/me/messages/${messageId}?key=${apiKey}`;
@@ -64,7 +66,6 @@ async function getEmailSubjects(apiKey, token, numEmails) {
           Authorization: `Bearer ${token}`,
         },
       });
-
       if (response2.ok) {
         const result = await response2.json();
         const fromHeader = result.payload.headers.find(header => header.name.toLowerCase() === 'from');
@@ -72,7 +73,6 @@ async function getEmailSubjects(apiKey, token, numEmails) {
         const subjectHeader = result.payload.headers.find(header => header.name.toLowerCase() === 'subject');
         const jobSiteList = ['linkedin job', 'glassdoor job' , 'indeed'];
         let jobSite = '';
-
         for (const keyword of jobSiteList) {
           if (fromHeader.value.toLowerCase().includes(keyword)) {
             jobSite = keyword.replace(' job', ''); // Extract the job site name

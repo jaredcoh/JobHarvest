@@ -128,6 +128,9 @@ function addColHeader(colList, headerRow){
             headerCell.innerHTML = `<strong>${col}&#x25C8;</strong>`;
             headerCell.style.border = '1px solid #ddd';
             headerCell.style.cursor = 'pointer'; // Add cursor style
+            headerCell.style.backgroundColor = '#8B5A2B';
+
+            headerCell.style.color = 'white';
             headerCell.addEventListener('click', () => {
                 sortTable(headerRow.parentElement.parentElement, index);
             });
@@ -178,16 +181,30 @@ function addData(job, jobsTable, colList, entry){
         default:
             break;
     }})
-    createDeleteButton(row);
+
+    row.style.backgroundColor = (row.previousElementSibling && row.previousElementSibling.style.backgroundColor === 'white') ? '' : 'white';
+
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.display = 'flex'; // Make buttons display horizontally
+
+    // Append both buttons to the container
+    sendButtonForRow(row, buttonContainer);
+    createDeleteButton(row, buttonContainer);
+    const buttonCell = row.insertCell(0);
+    buttonCell.appendChild(buttonContainer);
+    
 }
 
 function createDeleteEmailButton(delEmailRow, entry) {
     const delEmailCell = delEmailRow.insertCell(0);
     delEmailCell.colSpan = 2;
     const delEmailButton = document.createElement('button');
+    delEmailButton.id = 'email-actions';
     delEmailButton.style.fontSize = '12px';
     delEmailButton.style.width = '100%';
     delEmailButton.innerText = 'Trash Email';
+    delEmailButton.title = 'Trash Email';
     delEmailButton.addEventListener('click', (event) => {
         deleteEmail(entry.id);
         delEmailButton.innerText = 'Email Trashed!';
@@ -215,12 +232,42 @@ function createAndPrepJobTable(colList, entry){
     return jobsTable
 }
 
+function sendButtonForRow(row,container) {
+    const sendRowToSpreadsheetButton = document.createElement('button');
+    sendRowToSpreadsheetButton.innerHTML = '&#10148'; // Right arrow HTML entity
+    sendRowToSpreadsheetButton.id = "delete";
+    sendRowToSpreadsheetButton.title = "Send Row To Spreadsheet";
+    sendRowToSpreadsheetButton.addEventListener('click', (event) => {
+        const selectedRow = event.target.closest('tr'); // Get the closest row to the button
+        let selectedText = "";
+        const cells = selectedRow.querySelectorAll('td, th');
+        for (let j = 1; j < cells.length; j++) {
+            const cell = cells[j];
+            if (cell.querySelector('a')) {
+                // If cell contains a link, get the href attribute
+                selectedText += cell.querySelector('a').href + "\t";
+            } else {
+                selectedText += cell.innerText + "\t";
+            }
+        }
+        selectedText += "\n";
+        getSheetData(selectedText); // This function needs to be defined elsewhere in your code
+        sendRowToSpreadsheetButton.innerHTML = '&#x2713';
+        sendRowToSpreadsheetButton.title = "Sent!"
+    });
+
+    container.appendChild(sendRowToSpreadsheetButton);
+}
+
+
 function createOpenEmailButtonForTable(topRow, entry){
     const openCell = topRow.insertCell(0);
     openCell.colSpan = 1;
     const openButton = document.createElement('button');
+    openButton.id = 'email-actions';
     openButton.innerText = 'Open Email';
     openButton.style.width = '100%';
+    openButton.title = 'Open Email';
     openButton.style.fontSize = '12px';
     openCell.appendChild(openButton);
     openButton.addEventListener('click', (event) => {
@@ -245,16 +292,16 @@ function createSendButtonForTable(sendRow) {
     const sendCell = sendRow.insertCell(0);
     sendCell.colSpan = 1;
     const sendToSpreadsheetButton = document.createElement('button');
-    sendToSpreadsheetButton.innerText = 'Send to Sheet';
-    sendToSpreadsheetButton.style.width = '100%';
-    sendToSpreadsheetButton.style.fontSize = '12px';
+    sendToSpreadsheetButton.id = 'email-actions';
+    sendToSpreadsheetButton.innerText = 'Send 2 Sheet';
+    sendToSpreadsheetButton.title = 'Send Table To Spreadsheet';
     sendCell.appendChild(sendToSpreadsheetButton);
-
+    
     sendToSpreadsheetButton.addEventListener('click', (event) => {
         const table = event.target.closest('table');
         const selectedRows = Array.from(table.querySelectorAll('tr:not(.deleted)'));  // Exclude deleted rows
         const selectedText = getSelectedTableText(selectedRows);
-        getSheetData(selectedText); //this fails now
+        getSheetData(selectedText);
         sendToSpreadsheetButton.innerText = 'Sent!';
         setTimeout(() => {
             sendToSpreadsheetButton.innerText = 'Send to Spreadsheet';
@@ -272,7 +319,10 @@ function createCopyButtonForTable(headerRow) {
     const copyCell = headerRow.insertCell(0);
     copyCell.colSpan = 2;
     const copyButton = document.createElement('button');
+
     copyButton.innerText = 'Copy Table';
+    copyButton.title = 'Copy Table';
+    copyButton.id = 'email-actions';
     copyButton.style.width = '100%';
     copyButton.style.fontSize = '12px';
     copyButton.addEventListener('click', (event) => {
@@ -290,20 +340,15 @@ function createCopyButtonForTable(headerRow) {
 
 
 
-function createDeleteButton(row) {
-    const deleteCell = row.insertCell(0);
+function createDeleteButton(row,container) {
     const deleteButton = document.createElement('button');
     deleteButton.innerHTML = '\u2716'; // Use HTML entity for 'x' symbol
-    deleteButton.style.fontSize = '14px'; // Decrease font size for smaller 'x'
-    deleteButton.style.width = '30px'; // Set a fixed width and height for circular shape
-    deleteButton.style.height = '30px';
-    deleteButton.style.borderRadius = '50%'; // Make the button circular
     deleteButton.id = "delete"; // Set the ID for the button
     deleteButton.title = "Delete Row";
     deleteButton.addEventListener('click', () => {
         row.remove();
     });
-    deleteCell.appendChild(deleteButton);
+    container.appendChild(deleteButton);
 }
 
 async function deleteEmail(emailId) {
