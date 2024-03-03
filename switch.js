@@ -29,7 +29,9 @@ function toggleButton(buttonId) {
 }
 //Jared's Phrases to Ignore: 
 //sr, senior, III, manager,IV, VI, director, coop,co-opprincipal, lead, head,field, technician
-
+document.getElementById('openNewTabButton').addEventListener('click', function() {
+  window.open(window.location.href, '_blank');
+});
 document.addEventListener('DOMContentLoaded', function() {
   // List of button IDs
   var buttonIds = ['wButton', 'eButton', 'tButton', 'sButton'];

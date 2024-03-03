@@ -149,7 +149,38 @@ textarea {
     background-color: #382b0a; /* Black when clicked */
     color: #fff; /* White text when clicked */
 }
+#openNewTabButton {
+    position: relative;
+    top: -40px; /* Adjust as needed */
+    right: -340px; /* Adjust as needed */
+    background-color: transparent;
+    border: none; /* Remove border */
+    padding: 0; /* Remove padding */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-position: 5px center; /* Adjust position as needed */
+    border-bottom-left-radius: 50%;
+}
 
+#openNewTabButton:hover {
+background-color: black;
+}
+
+#openNewTabButton:active {
+background-color: #DAA520;
+}
+#openNewTabButton img {
+    width: 20px; /* Adjust width as needed */
+    height: 20px; /* Adjust height as needed */
+    }
+#openNewTabButton:active img,
+#openNewTabButton:hover img {
+    filter: invert(100%);
+    }
+      
+
+
+  
 #content {
     /* Add some padding to create space between header and content */
     padding-top: 80px;
