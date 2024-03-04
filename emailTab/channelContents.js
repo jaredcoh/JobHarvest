@@ -71,7 +71,7 @@ async function getEmailSubjects(apiKey, token, numEmails) {
         const fromHeader = result.payload.headers.find(header => header.name.toLowerCase() === 'from');
         const dateHeader = result.payload.headers.find(header => header.name.toLowerCase() === 'date');
         const subjectHeader = result.payload.headers.find(header => header.name.toLowerCase() === 'subject');
-        const jobSiteList = ['linkedin job', 'glassdoor job' , 'indeed'];
+        const jobSiteList = ['linkedin job', 'glassdoor job' , 'indeed','getro'];
         let jobSite = '';
         for (const keyword of jobSiteList) {
           if (fromHeader.value.toLowerCase().includes(keyword)) {
@@ -105,6 +105,9 @@ async function getEmailSubjects(apiKey, token, numEmails) {
           jobDetails = indeedParser(tempDocument);
         } else if (jobSite === 'glassdoor'){
           jobDetails = glassdoorParser(tempDocument);
+        }
+        else if (jobSite ==='getro'){
+          jobDetails = getroParser(tempDocument);
         }
 
         // Create emailInfo object with job details

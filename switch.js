@@ -89,7 +89,7 @@ function loadDifferentHTML(letter, footer) {
           document.body.appendChild(scriptElement);
           // Load scripts if needed
           if (letter === "eButton") {
-              let sList = ['dictParse.js', 'glassdoorParse.js', 'googleSheetsIntegration.js', 'indeedParse.js', 'linkedinParse.js', 'smallFunctions.js', 'channelContents.js']
+              let sList = ['dictParse.js', 'glassdoorParse.js', 'getroParse.js','googleSheetsIntegration.js', 'indeedParse.js', 'linkedinParse.js', 'smallFunctions.js', 'channelContents.js']
               sList.forEach(fileName => {
                   const scriptElement = document.createElement('script');
                   scriptElement.src = `/emailTab/${fileName}`;
