@@ -2,6 +2,7 @@
 
 function dictionaryParser(resultContainer, jobDetails, colList, phrasesToIgnore) {
     console.log("Start Parsing");
+    document.getElementById("number").textContent = "Email Search Results"
     //do not do all the crazy stuff below if nothing exists
     let numJobs = 0;
     if (jobDetails.length === 0){
@@ -9,7 +10,7 @@ function dictionaryParser(resultContainer, jobDetails, colList, phrasesToIgnore)
         updateQuantity(jobDetails, numJobs);
         return;
     }        
-    document.getElementById("number").textContent = "Email Search Results"
+    
 
     //edge case when user doesnt want anything or wants default
     if (colList.every(col => col === 'none')) {
