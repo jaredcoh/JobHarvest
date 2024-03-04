@@ -47,7 +47,8 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
         (
             tabs[0].url.includes("workday") ||
             tabs[0].url.includes("workforcenow") ||
-            tabs[0].url.includes("eightfold"))
+            tabs[0].url.includes("eightfold") ||
+            tabs[0].url.includes("ultipro"))
         ){
             let parsingFunction = determineParsingFunction(tabs);
             if (parsingFunction) {
@@ -56,6 +57,7 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                     function: parsingFunction,
                     args: [tabs]
                 }, function(result) {
+                console.log(result);
                 let outputElement = document.getElementById('output')
                 if (chrome.runtime.lastError) {
                     console.error(chrome.runtime.lastError.message);
@@ -128,7 +130,11 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                                         break;
                                     case 'Company':
                                         let compCell = newRow.insertCell();
-                                        compCell.textContent = (companyNameInput) ? companyNameInput : (tabs[0].url.match(/workforcenow/i) ? "N/A" : (tabs[0].url.match(/https?:\/\/([^./]+)/)[1].charAt(0).toUpperCase() + tabs[0].url.match(/https?:\/\/([^./]+)/)[1].slice(1) || ""));
+                                        compCell.textContent = (companyNameInput) ? companyNameInput : 
+                                            (tabs[0].url.match(/workforcenow/i) ? "N/A" : 
+                                            (tabs[0].url.match(/ultipro/i) ? "N/A" :
+                                            (tabs[0].url.match(/https?:\/\/([^./]+)/)[1].charAt(0).toUpperCase() + 
+                                            tabs[0].url.match(/https?:\/\/([^./]+)/)[1].slice(1) || "")));
 
                                         compCell.style.border = '1px solid #ddd';
                                         break;
@@ -284,12 +290,42 @@ function determineParsingFunction(tabs) {
         } else if (tabs[0].url.includes("eightfold")){
             console.log("eightfold");
             return eightfoldParse;
+        } else if (tabs[0].url.includes("ultipro")){
+            console.log("ultipro")
+            return ultiproParse;
         } else{
             console.log("None")
+            return "Parsing returned None"
         }
     }
-    return null;
+    return "No Parsing Qualification";
 }
+
+function ultiproParse(tabs){
+    let jobTitles = [];
+    let locations = [];
+    let links = [];
+    opportunities = document.querySelectorAll('div[data-automation="opportunity"]');
+
+    opportunities.forEach(opportunity => {
+    // Extract job title from the current opportunity
+        const jobTitleElement = opportunity.querySelector('a[data-automation="job-title"]');
+        if (jobTitleElement) {
+            const jobTitle = jobTitleElement.innerText.trim();
+            jobTitles.push(jobTitle);
+            links.push(tabs[0].url); // Assuming tabs is defined in the surrounding context
+        }
+
+        // Extract the first location from the current opportunity
+        const locationElement = opportunity.querySelector('address[data-automation="physical-location"]');
+        if (locationElement) {
+            const location = locationElement.innerText.trim();
+            locations.push(location);
+        }
+    });
+    return {"tabId":tabs[0].id, "jobTitles":jobTitles, "locations":locations, 'links':links};
+}
+
 
 function createSendButtonForTable(sendRow,sheetsURL, sheetsTab, startColumn, endColumn) {
     
