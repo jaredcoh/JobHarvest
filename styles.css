@@ -149,6 +149,20 @@ textarea {
     background-color: #382b0a; /* Black when clicked */
     color: #fff; /* White text when clicked */
 }
+#delete-sent {
+    background-color: rgb(0, 66, 0);
+    color: white;
+    border: none; /* No border */
+    border-radius: 50%; /* Make it a circle */
+    color: white; /* White text */
+    width: 20px; /* Set width */
+    height: 20px; /* Set height */
+    font-size: 10px; /* Adjust font size */
+    text-align: center; /* Center text horizontally */
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+}
 #openNewTabButton {
     position: relative;
     top: -40px; /* Adjust as needed */

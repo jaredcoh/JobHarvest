@@ -224,6 +224,7 @@ function sendButtonForRow(container) {
         getSheetData(selectedText); // This function needs to be defined elsewhere in your code
         sendToSpreadsheetButton.innerHTML = '&#x2713';
         sendToSpreadsheetButton.title = "Sent!"
+        sendToSpreadsheetButton.id += '-sent'; // Add the 'sent' class
     });
 
     container.appendChild(sendToSpreadsheetButton);
