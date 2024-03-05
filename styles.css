@@ -192,9 +192,6 @@ background-color: #DAA520;
     filter: invert(100%);
     }
       
-
-
-  
 #content {
     /* Add some padding to create space between header and content */
     padding-top: 80px;
@@ -242,6 +239,17 @@ background-color: #DAA520;
     justify-content: space-around; /* Evenly space the items */
     align-items: center; /* Align items vertically in the center */
     }
+.circle {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: transparent; /* Initial color */
+    position: absolute;
+    color: #fff;
+    font-size: 15px;
+    top: 4px;
+    left: 80px;
+}
 .button {
     background-color: #333; /* Dark button color */
     color: #fff; /* Button text color */

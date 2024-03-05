@@ -128,3 +128,23 @@ function attachEventListeners() {
       });
   });
 }
+
+
+function updateCircle() {
+  const circle = document.querySelector(".circle");
+  const keywords = ["workday", "workforcenow", "eightfold", "ultipro"];
+
+  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+      // Check if the URL contains any of the keywords
+      const containsKeyword = keywords.some(keyword => tabs[0].url.includes(keyword));
+
+      // Style the circle
+      circle.style.backgroundColor = containsKeyword ? '#DAA520' : 'transparent';
+  });
+}
+
+// Listen for tab updates
+chrome.tabs.onUpdated.addListener(updateCircle);
+
+// Initial call to updateCircle to check the URL when the extension is loaded
+updateCircle();
