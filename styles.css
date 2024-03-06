@@ -207,6 +207,7 @@ background-color: #DAA520;
     color: black; /* White text */
     font-size: 10px; /* Adjust font size */
     cursor: pointer;
+    width: 100%;
     height:25px;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -246,9 +247,8 @@ background-color: #DAA520;
     background-color: transparent; /* Initial color */
     position: absolute;
     color: #fff;
-    font-size: 15px;
     top: 4px;
-    left: 80px;
+    left: 5px;
 }
 .button {
     background-color: #333; /* Dark button color */
