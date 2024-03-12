@@ -29,7 +29,7 @@ function getWebsiteInfo(){
 }
 
 function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColumn, numEmails, option1, option2, option3, option4, option5, option6){
-    console.log("script executing")
+    console.log("script executing");
     // getting column values
     let colList = [option1, option2, option3, option4, option5, option6];
 
@@ -39,7 +39,7 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
     }
     
 
-
+    console.log("AAAA");
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
         if  (tabs.length > 0 &&
         tabs[0].url &&
@@ -48,7 +48,9 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
             tabs[0].url.includes("workday") ||
             tabs[0].url.includes("workforcenow") ||
             tabs[0].url.includes("eightfold") ||
-            tabs[0].url.includes("ultipro"))
+            tabs[0].url.includes("ultipro") ||
+            tabs[0].url.includes("jobs") ||
+            tabs[0].url.includes("career"))
         ){
             let parsingFunction = determineParsingFunction(tabs);
             if (parsingFunction) {
@@ -130,12 +132,23 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                                         break;
                                     case 'Company':
                                         let compCell = newRow.insertCell();
-                                        compCell.textContent = (companyNameInput) ? companyNameInput : 
-                                            (tabs[0].url.match(/workforcenow/i) ? "N/A" : 
-                                            (tabs[0].url.match(/ultipro/i) ? "N/A" :
-                                            (tabs[0].url.match(/https?:\/\/([^./]+)/)[1].charAt(0).toUpperCase() + 
-                                            tabs[0].url.match(/https?:\/\/([^./]+)/)[1].slice(1) || "")));
-
+                                        let companyName = "";
+                                        if (companyNameInput) {
+                                            companyName = companyNameInput;
+                                        } else if (tabs[0].url.match(/workforcenow/i)) {
+                                            companyName = "N/A";
+                                        } else if (tabs[0].url.match(/ultipro/i)) {
+                                            companyName = "N/A";
+                                        } else {
+                                            const jobCareerMatch = tabs[0].url.match(/(?:jobs?|careers?)\.(.+?)(?:\.|\/|$)/i);
+                                            if (jobCareerMatch) {
+                                                companyName = jobCareerMatch[1].charAt(0).toUpperCase() + jobCareerMatch[1].slice(1);
+                                            } else {
+                                                const domainMatch = tabs[0].url.match(/https?:\/\/([^./]+)/);
+                                                companyName = domainMatch[1].charAt(0).toUpperCase() + domainMatch[1].slice(1);
+                                            }
+                                        }
+                                        compCell.textContent = companyName;
                                         compCell.style.border = '1px solid #ddd';
                                         break;
                                     case 'Location':
@@ -280,10 +293,10 @@ function eightfoldParse(tabs) {
 }
 
 function determineParsingFunction(tabs) {
+    console.log("AAAAAAAAAAAAAAAAA");
     if (tabs.length > 0 && tabs[0].url && !tabs[0].url.startsWith("chrome://")) {
         if (tabs[0].url.includes("workday")) {
             console.log("workday");
-
             return workdayParse;
         } else if (tabs[0].url.includes("workforcenow")) {
             console.log("workforcenow");
@@ -295,11 +308,40 @@ function determineParsingFunction(tabs) {
             console.log("ultipro")
             return ultiproParse;
         } else{
-            console.log("None")
-            return "Parsing returned None"
+            console.log("eightfold last check")
+            return checkIfEightfold;
         }
     }
     return "No Parsing Qualification";
+}
+function checkIfEightfold(tabs){
+    console.log("checking if eightfold")
+    if (!!document.querySelector('a[title="Visit Eightfold.ai homepage"]')){
+        console.log("is eightfold related", !!document.querySelector('a[title="Visit Eightfold.ai homepage"]'))
+        console.log(eightfoldParse(tabs))
+        function eightfoldParse(tabs) {
+            let jobTitles = [];
+            let locations = [];
+            let links = [];
+            jobTitleElementsRaw = document.querySelectorAll('.position-title');
+            locationElementsRaw = document.querySelectorAll('.position-location');
+            for (let element of jobTitleElementsRaw) {
+                jobTitles.push(element.innerText.trim());
+                links.push(tabs[0].url+'?query='+element.innerText.trim());
+            }
+            for (let element of locationElementsRaw) {
+                locations.push(element.innerText.trim());
+            }
+            return {"tabId":tabs[0].id, "jobTitles":jobTitles, "locations":locations, "links":links};
+        }
+        return eightfoldParse(tabs)
+    }
+    else{
+        console.log("is not eightfold related", !!document.querySelector('a[title="Visit Eightfold.ai homepage"]'))
+        
+        return "None"
+    }
+    
 }
 
 function ultiproParse(tabs){
