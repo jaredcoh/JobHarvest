@@ -38,8 +38,6 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
         colList = ['Date', 'Job Title', 'Company', 'Location', 'Link', 'Source'];
     }
     
-
-    console.log("AAAA");
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
         if  (tabs.length > 0 &&
         tabs[0].url &&
@@ -50,7 +48,8 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
             tabs[0].url.includes("eightfold") ||
             tabs[0].url.includes("ultipro") ||
             tabs[0].url.includes("jobs") ||
-            tabs[0].url.includes("career"))
+            tabs[0].url.includes("career")||
+            tabs[0].url.includes("greenhouse"))
         ){
             let parsingFunction = determineParsingFunction(tabs);
             if (parsingFunction) {
@@ -59,7 +58,6 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                     function: parsingFunction,
                     args: [tabs]
                 }, function(result) {
-                console.log(result);
                 let outputElement = document.getElementById('output')
                 if (chrome.runtime.lastError) {
                     console.error(chrome.runtime.lastError.message);
@@ -139,6 +137,8 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                                             companyName = "N/A";
                                         } else if (tabs[0].url.match(/ultipro/i)) {
                                             companyName = "N/A";
+                                        }else if (tabs[0].url.match(/greenhouse/i)) {
+                                                companyName = "N/A";
                                         } else {
                                             const jobCareerMatch = tabs[0].url.match(/(?:jobs?|careers?)\.(.+?)(?:\.|\/|$)/i);
                                             if (jobCareerMatch) {
@@ -293,7 +293,6 @@ function eightfoldParse(tabs) {
 }
 
 function determineParsingFunction(tabs) {
-    console.log("AAAAAAAAAAAAAAAAA");
     if (tabs.length > 0 && tabs[0].url && !tabs[0].url.startsWith("chrome://")) {
         if (tabs[0].url.includes("workday")) {
             console.log("workday");
@@ -307,6 +306,9 @@ function determineParsingFunction(tabs) {
         } else if (tabs[0].url.includes("ultipro")){
             console.log("ultipro")
             return ultiproParse;
+        } else if (tabs[0].url.includes("greenhouse")){
+                console.log("greenhouse")
+                return greenhouseParse;
         } else{
             console.log("eightfold last check")
             return checkIfEightfold;
@@ -314,6 +316,31 @@ function determineParsingFunction(tabs) {
     }
     return "No Parsing Qualification";
 }
+
+function greenhouseParse(tabs){
+    let jobTitles = [];
+    let locations = [];
+    let links = [];
+    opportunities = document.querySelectorAll('div[class="opening"]');
+    opportunities.forEach(opportunity => {
+    // Extract job title from the current opportunity
+        const jobTitleElement = opportunity.querySelector('a[class="docs-creator"]');
+        if (jobTitleElement) {
+            const jobTitle = jobTitleElement.innerText.trim();
+            jobTitles.push(jobTitle);
+            links.push(tabs[0].url.substring(0, tabs[0].url.lastIndexOf('/')) + jobTitleElement.getAttribute('href'));
+        }
+
+        // Extract the first location from the current opportunity
+        const locationElement = opportunity.querySelector('span[class="location"]');
+        if (locationElement) {
+            const location = locationElement.innerText.trim();
+            locations.push(location);
+        }
+    });
+    return {"tabId":tabs[0].id, "jobTitles":jobTitles, "locations":locations, 'links':links};
+}
+
 function checkIfEightfold(tabs){
     console.log("checking if eightfold")
     if (!!document.querySelector('a[title="Visit Eightfold.ai homepage"]')){
