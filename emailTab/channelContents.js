@@ -20,21 +20,19 @@ chrome.storage.local.get(["ignorePhrases", "numEmails", "sheetsURL", "sheetsTab"
   
   if (document.getElementById("search") && document.getElementById("resultsContainer")) {
     let searchButton = document.getElementById("search");
-    let resultContainer = document.getElementById("resultsContainer")
+    let resultContainer = document.getElementById("resultsContainer");
+    let genData = document.getElementById("number")
     searchButton.onclick = async () => {
-      searchButton.value = "Identifying User...";
+      genData.textContent = "Identifying User...";
+      resultContainer.textContent = ""
       // Get OAuth token using Chrome Identity API
       const token = await getOAuthToken();
-      searchButton.value = "Searching...";
+      genData.textContent = "Searching...";
       // Call getEmailSubjects and pass apiKey, token, and resultsContainer
       const emailDetails = await getEmailSubjects(apiKey, token, numEmails);
-      searchButton.value = "Parsing...";
+      genData.textContent = "Parsing...";
       // Call dictionaryParser with the output of getEmailSubjects
       dictionaryParser(resultContainer, emailDetails, columnList, ignorePhrases);
-      searchButton.value = "Finished!";
-      setTimeout(() => {
-        searchButton.value = "Search Your Email";
-      }, 2000);
     };
   }
 });

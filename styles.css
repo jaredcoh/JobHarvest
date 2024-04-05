@@ -55,29 +55,38 @@ textarea {
 #search {
     position: fixed; /* Make the button fixed */
     left: 50%; /* Center horizontally */
-    top: 15px; /* Adjust the distance from the top as needed */
+    top: 5px; /* Adjust the distance from the top as needed */
     transform: translateX(-50%); /* Center horizontally */
-    padding: 15px 30px; /* Adjust padding as needed for a larger button */
-    border-width: 2px;
-    border-style: solid; /* or dashed, dotted, etc. */
-    border-color: #fff8ef;
-    border-radius: 25px; /* Rounded corners */
-    background-color: #DAA520; /* Light teal background */
-    color: #fff; /* White text */
-    font-size: large; /* Larger font size */
-    font-weight: bold; /* Bolder font weight */
+    padding: 5px 5px; /* Adjust padding as needed for a larger button */
+    border-radius: 50px; /* Rounded corners */
+    color: #292929; /* White text */
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for color change */
+    width: 70%;
+    background: radial-gradient(circle at top left, #dadada 0%, #bfbfbf 30%, #e9e9e900 100%),radial-gradient(circle at bottom right, #e8e8e8 0%, #c9c9c9 20%, #65656500 100%);
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Smooth transition for color change */
 }   
 
 #search:hover {
-    background-color: #dab860; /* Dark teal on hover */
+    border-color:#e2e2e2;
+    border-radius: 50px; /* Rounded corners */
+    border-width: 2px; /* Rounded corners */
+    border-style:solid;
+    background: radial-gradient(circle at top left, #fea200 0%, #fe1900 50%, #fe190000 100%),radial-gradient(circle at bottom right, #fe8f09 0%, #fe1900 50%, #fe190000 100%);
     color: #fff; /* White text on hover */
 }
 
 #search:active {
-    background-color: #382b0a; /* Black when clicked */
+    background-color: #DAA520; /* Black when clicked */
+    border-color:#222222;
+    border-style:solid;
+    border-width: 2px; /* Rounded corners */
     color: #fff; /* White text when clicked */
+}
+#search img{
+    transition: filter 0.3s ease,;
+}
+#search:hover img {
+    filter: brightness(0) invert(1); /* Semi-transparent white */
 }
 
 #resultsContainer {
@@ -85,7 +94,7 @@ textarea {
     word-wrap: break-word;
 }
 .footer2 {
-    background-color: #8B5A2B;
+    background-color: #e3e3e3;
     color: #fff;
     padding: 5px;
     text-align: center;
