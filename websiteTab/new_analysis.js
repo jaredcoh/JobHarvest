@@ -138,8 +138,13 @@ function executeScript(ignorePhrases,sheetsURL, sheetsTab, startColumn, endColum
                                         } else if (tabs[0].url.match(/ultipro/i)) {
                                             companyName = "N/A";
                                         }else if (tabs[0].url.match(/greenhouse/i)) {
-                                                companyName = "N/A";
-                                        } else {
+                                            companyName = "N/A";
+                                        }else if (tabs[0].url.match(/workday/i)){
+                                            jobCareerMatch = tabs[0].url.match(/(?:https:\/\/)(.*?)(?=\..*)/)[1];
+                                            companyName = jobCareerMatch.charAt(0).toUpperCase() + jobCareerMatch.slice(1);
+                                        }
+                                        
+                                        else {
                                             const jobCareerMatch = tabs[0].url.match(/(?:jobs?|careers?)\.(.+?)(?:\.|\/|$)/i);
                                             if (jobCareerMatch) {
                                                 companyName = jobCareerMatch[1].charAt(0).toUpperCase() + jobCareerMatch[1].slice(1);

@@ -132,7 +132,7 @@ function attachEventListeners() {
 
 function updateCircle() {
   const circle = document.querySelector(".circle");
-  const keywords = ["workday", "workforcenow", "eightfold", "ultipro"];
+  const keywords = ["workday", "workforcenow", "eightfold", "ultipro", "greenhouse"];
 
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
       // Check if the URL contains any of the keywords
